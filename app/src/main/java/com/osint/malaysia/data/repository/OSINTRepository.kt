@@ -29,9 +29,6 @@ class OSINTRepository {
     private val rmpService = ApiClient.createRetrofit("https://www.rmp.gov.my/")
         .create(OSINTService::class.java)
 
-    private val ecourtService = ApiClient.createRetrofit("https://efs.kehakiman.gov.my/")
-        .create(OSINTService::class.java)
-
     private val bnmService = ApiClient.createRetrofit("https://www.bnm.gov.my/")
         .create(OSINTService::class.java)
 
@@ -154,35 +151,62 @@ class OSINTRepository {
 
     /* ===== e-Court 电子法庭判决搜索 ===== */
     suspend fun searchECourt(name: String): Result<String> = withContext(Dispatchers.IO) {
-        LogUtil.network(tag, "POST", "efs.kehakiman.gov.my", mapOf("name" to name))
+        val url = "https://efs.kehakiman.gov.my/EJudgmentWeb/Search"
+        LogUtil.network(tag, "POST", url, mapOf("name" to name))
 
-        try {
-            val request = ECourtSearchRequest(
-                param = ECourtParam(search = name)
-            )
+        /* 构造JSON体 — 匹配C代码的精确格式 */
+        val jsonBody = buildString {
+            append("{")
+            append("\"Param\":{")
+            append("\"Search\":\"${name.replace("\"", "\\\"")}\",")
+            append("\"JurisdictionType\":\"ALL\",")
+            append("\"CourtCategory\":\"\",")
+            append("\"Court\":\"\",")
+            append("\"JudgeName\":\"\",")
+            append("\"CaseType\":\"\",")
+            append("\"DateOfAPFrom\":\"\",")
+            append("\"DateOfAPTo\":\"\",")
+            append("\"DateOfResultFrom\":\"\",")
+            append("\"DateOfResultTo\":\"\",")
+            append("\"CurrPage\":1,")
+            append("\"Ordering\":\"DATE_OF_AP_DESC\"")
+            append("}}")
+        }
 
-            /* 最多重试3次，间隔3秒 */
-            var lastError: Exception? = null
-            repeat(3) { attempt ->
-                try {
-                    val response = ecourtService.searchECourt(request)
-                    LogUtil.networkResponse(tag, "ecourt", response.code(), response.body()?.length ?: 0)
+        /* 不使用Content-Type — 完全匹配C代码行为(libcurl默认) */
+        val mediaType = "application/json".toMediaType()
+        val requestBody = jsonBody.toRequestBody(mediaType)
 
-                    if (response.isSuccessful) {
-                        return@withContext Result.success(response.body() ?: "{}")
-                    }
-                } catch (e: Exception) {
-                    lastError = e
-                    LogUtil.w(tag, "e-Court第${attempt + 1}次重试失败: ${e.message}")
-                    if (attempt < 2) delay(3000)
+        /* 最多重试3次，间隔3秒 — 匹配C代码逻辑 */
+        var lastError: Exception? = null
+        repeat(3) { attempt ->
+            try {
+                val request = Request.Builder()
+                    .url(url)
+                    .post(requestBody)
+                    .header("Accept", "application/json, text/plain, */*")
+                    .header("Referer", "https://efs.kehakiman.gov.my/EJudgmentWeb/")
+                    .build()
+
+                val response = httpClient.newCall(request).execute()
+                val body = response.body?.string() ?: "{}"
+                LogUtil.networkResponse(tag, "ecourt", response.code, body.length)
+
+                if (response.isSuccessful && body.isNotBlank()) {
+                    return@withContext Result.success(body)
+                } else if (!response.isSuccessful) {
+                    LogUtil.w(tag, "e-Court HTTP ${response.code}: ${body.take(200)}")
                 }
+            } catch (e: Exception) {
+                lastError = e
+                LogUtil.w(tag, "e-Court第${attempt + 1}次尝试失败: ${e.message}")
             }
 
-            Result.failure(lastError ?: Exception("e-Court请求失败"))
-        } catch (e: Exception) {
-            LogUtil.apiError(tag, "ecourt", e.message ?: "未知错误")
-            Result.failure(e)
+            if (attempt < 2) delay(3000)
         }
+
+        LogUtil.apiError(tag, "ecourt", lastError?.message ?: "3次重试后仍失败")
+        Result.failure(lastError ?: Exception("e-Court请求失败(3次重试耗尽)"))
     }
 
     /* ===== BNM 国家银行消费者警示名单 ===== */
