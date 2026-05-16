@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.osint.malaysia.ui.components.*
 import com.osint.malaysia.ui.theme.Accent
 import com.osint.malaysia.ui.theme.AppTypography
-import com.osint.malaysia.ui.theme.NavyBlue
 import com.osint.malaysia.viewmodel.MainViewModel
 
 @Composable
@@ -32,11 +32,11 @@ fun SocialScreen(viewModel: MainViewModel) {
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         item {
-            Text("社交媒体足迹搜索", style = AppTypography.Title, color = NavyBlue.N50)
+            Text("社交媒体足迹搜索", style = AppTypography.Title, color = MaterialTheme.colorScheme.onBackground)
             Text(
                 "跨平台用户名枚举 — 遍历60+主流社交平台进行匹配",
                 style = AppTypography.Caption,
-                color = NavyBlue.N400
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
@@ -66,7 +66,7 @@ fun SocialScreen(viewModel: MainViewModel) {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     CircularProgressIndicator(
-                        color = NavyBlue.N400,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(20.dp),
                         strokeWidth = 2.dp
                     )
@@ -74,7 +74,7 @@ fun SocialScreen(viewModel: MainViewModel) {
                     Text(
                         "正在搜索… 已找到 ${socialResults.size} 个平台",
                         style = AppTypography.Caption,
-                        color = NavyBlue.N300
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
@@ -105,19 +105,19 @@ fun SocialScreen(viewModel: MainViewModel) {
             item {
                 Card(
                     shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, NavyBlue.N700)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                 ) {
                     Column(Modifier.padding(16.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Default.Info, null, tint = NavyBlue.N400, modifier = Modifier.size(20.dp))
+                            Icon(Icons.Default.Info, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
                             Spacer(Modifier.width(8.dp))
-                            Text("使用说明", style = AppTypography.Subtitle, color = NavyBlue.N50)
+                            Text("使用说明", style = AppTypography.Subtitle, color = MaterialTheme.colorScheme.onBackground)
                         }
                         Spacer(Modifier.height(8.dp))
-                        Text("• 输入目标用户名，系统将自动遍历各大社交平台进行匹配", style = AppTypography.Caption, color = NavyBlue.N400)
-                        Text("• 搜索结果实时显示，无需等待全部完成", style = AppTypography.Caption, color = NavyBlue.N400)
-                        Text("• 支持全球主流社交平台、开发者社区、论坛等", style = AppTypography.Caption, color = NavyBlue.N400)
+                        Text("• 输入目标用户名，系统将自动遍历各大社交平台进行匹配", style = AppTypography.Caption, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("• 搜索结果实时显示，无需等待全部完成", style = AppTypography.Caption, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("• 支持全球主流社交平台、开发者社区、论坛等", style = AppTypography.Caption, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }

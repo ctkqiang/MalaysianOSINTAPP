@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,12 +53,12 @@ fun HomeScreen(viewModel: MainViewModel) {
             Text(
                 "反诈骗查询",
                 style = AppTypography.Title,
-                color = NavyBlue.N50
+                color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 "PDRM Semak Mule — 查询电话号码或银行账号是否涉及诈骗",
                 style = AppTypography.Caption,
-                color = NavyBlue.N400
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
@@ -80,8 +81,8 @@ fun HomeScreen(viewModel: MainViewModel) {
                 OutlinedButton(
                     onClick = { viewModel.loadBNMAlert() },
                     shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = NavyBlue.N300),
-                    border = BorderStroke(1.dp, NavyBlue.N600)
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.primary),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                 ) {
                     Icon(Icons.Default.Refresh, null, Modifier.size(16.dp))
                     Spacer(Modifier.width(4.dp))
@@ -153,7 +154,7 @@ fun HomeScreen(viewModel: MainViewModel) {
                             Text(
                                 riskLevel.third,
                                 style = AppTypography.Caption,
-                                color = NavyBlue.N300
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     }
@@ -165,8 +166,8 @@ fun HomeScreen(viewModel: MainViewModel) {
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     StatCard("匹配记录", "${rows.size}", if (hasData) Accent.Orange else Accent.Green, Modifier.weight(1f))
-                    StatCard("数据字段", "$totalCount", NavyBlue.N300, Modifier.weight(1f))
-                    StatCard("数据来源", "PDRM", NavyBlue.N400, Modifier.weight(1f))
+                    StatCard("数据字段", "$totalCount", MaterialTheme.colorScheme.onSurfaceVariant, Modifier.weight(1f))
+                    StatCard("数据来源", "PDRM", MaterialTheme.colorScheme.primary, Modifier.weight(1f))
                 }
 
                 /* 详细数据 — 展示所有table_data行 */
@@ -175,14 +176,14 @@ fun HomeScreen(viewModel: MainViewModel) {
                     rows.forEachIndexed { index, row ->
                         Card(
                             shape = RoundedCornerShape(10.dp),
-                            colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
-                            border = BorderStroke(1.dp, NavyBlue.N700)
+                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                         ) {
                             Column(modifier = Modifier.padding(14.dp)) {
                                 Text(
                                     "记录 #${index + 1}",
                                     style = AppTypography.Caption,
-                                    color = NavyBlue.N500
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Spacer(Modifier.height(8.dp))
                                 row.forEachIndexed { colIndex, cell ->
@@ -193,12 +194,12 @@ fun HomeScreen(viewModel: MainViewModel) {
                                             Text(
                                                 "▸ ",
                                                 style = AppTypography.Caption,
-                                                color = NavyBlue.N500
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
                                             )
                                             Text(
                                                 cell,
                                                 style = AppTypography.Body,
-                                                color = NavyBlue.N100,
+                                                color = MaterialTheme.colorScheme.onSurface,
                                                 modifier = Modifier.weight(1f)
                                             )
                                         }
@@ -214,7 +215,7 @@ fun HomeScreen(viewModel: MainViewModel) {
                     /* table_data为空 → 干净号码 */
                     Card(
                         shape = RoundedCornerShape(10.dp),
-                        colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                         border = BorderStroke(1.dp, Accent.Green.copy(alpha = 0.2f))
                     ) {
                         Row(
@@ -251,15 +252,15 @@ fun HomeScreen(viewModel: MainViewModel) {
                 items(result.entries.take(50)) { alert ->
                     Card(
                         shape = RoundedCornerShape(8.dp),
-                        colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                         border = androidx.compose.foundation.BorderStroke(1.dp, Accent.Orange.copy(alpha = 0.3f)),
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Column(modifier = Modifier.padding(12.dp)) {
-                            Text(alert.name, style = AppTypography.Subtitle, color = NavyBlue.N50)
-                            Text(alert.website, style = AppTypography.Caption, color = NavyBlue.N400)
+                            Text(alert.name, style = AppTypography.Subtitle, color = MaterialTheme.colorScheme.onBackground)
+                            Text(alert.website, style = AppTypography.Caption, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             if (alert.date.isNotEmpty()) {
-                                Text(alert.date, style = AppTypography.Caption, color = NavyBlue.N500)
+                                Text(alert.date, style = AppTypography.Caption, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                         }
                     }
@@ -279,7 +280,7 @@ private fun StatCard(
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
-        colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         border = BorderStroke(1.dp, accentColor.copy(alpha = 0.25f)),
         modifier = modifier
     ) {
@@ -297,7 +298,7 @@ private fun StatCard(
             Text(
                 label,
                 style = AppTypography.Caption,
-                color = NavyBlue.N400,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
         }

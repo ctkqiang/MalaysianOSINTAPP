@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +20,6 @@ import com.osint.malaysia.model.SPRMCase
 import com.osint.malaysia.ui.components.*
 import com.osint.malaysia.ui.theme.Accent
 import com.osint.malaysia.ui.theme.AppTypography
-import com.osint.malaysia.ui.theme.NavyBlue
 import com.osint.malaysia.viewmodel.MainViewModel
 
 @Composable
@@ -36,11 +36,11 @@ fun IDCheckScreen(viewModel: MainViewModel) {
     ) {
         /* 搜索区 */
         item {
-            Text("身份证综合查询", style = AppTypography.Title, color = NavyBlue.N50)
+            Text("身份证综合查询", style = AppTypography.Title, color = MaterialTheme.colorScheme.onBackground)
             Text(
                 "SSPI移民局 + MyKad解析 + 通缉名单 + 反贪会记录",
                 style = AppTypography.Caption,
-                color = NavyBlue.N400
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
@@ -76,8 +76,8 @@ fun IDCheckScreen(viewModel: MainViewModel) {
                 SectionHeader("MyKad 身份证解析")
                 Card(
                     shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
-                    border = BorderStroke(1.dp, NavyBlue.N700)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         InfoRow("出生日期", myKad.birthday)
@@ -96,8 +96,8 @@ fun IDCheckScreen(viewModel: MainViewModel) {
                 SectionHeader("SSPI 移民局状态")
                 Card(
                     shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
-                    border = BorderStroke(1.dp, NavyBlue.N700)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                 ) {
                     Row(
                         modifier = Modifier.padding(16.dp),
@@ -111,7 +111,7 @@ fun IDCheckScreen(viewModel: MainViewModel) {
                             modifier = Modifier.size(24.dp)
                         )
                         Spacer(Modifier.width(12.dp))
-                        Text(sspi.statusCode, style = AppTypography.Body, color = NavyBlue.N100)
+                        Text(sspi.statusCode, style = AppTypography.Body, color = MaterialTheme.colorScheme.onSurface)
                     }
                 }
             }
@@ -135,11 +135,11 @@ fun IDCheckScreen(viewModel: MainViewModel) {
 private fun SPRMCaseCard(case: SPRMCase) {
     Card(
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         border = BorderStroke(1.dp, Accent.Orange.copy(alpha = 0.3f))
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-            Text(case.name, style = AppTypography.Subtitle, color = NavyBlue.N50)
+            Text(case.name, style = AppTypography.Subtitle, color = MaterialTheme.colorScheme.onBackground)
             Spacer(Modifier.height(4.dp))
             InfoRow("身份证", case.ic, isMono = true)
             InfoRow("案件编号", case.caseNo, isMono = true)

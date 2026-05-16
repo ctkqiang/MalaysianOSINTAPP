@@ -9,13 +9,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.osint.malaysia.ui.components.*
 import com.osint.malaysia.ui.theme.Accent
 import com.osint.malaysia.ui.theme.AppTypography
-import com.osint.malaysia.ui.theme.NavyBlue
 import com.osint.malaysia.viewmodel.MainViewModel
 import com.osint.malaysia.util.SSMParser
 
@@ -38,8 +38,8 @@ fun CompanyScreen(viewModel: MainViewModel) {
         item {
             TabRow(
                 selectedTabIndex = activeTab,
-                containerColor = NavyBlue.N900,
-                contentColor = NavyBlue.N400
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.primary
             ) {
                 Tab(selected = activeTab == 0, onClick = { activeTab = 0 }) {
                     Text("SSM注册号", Modifier.padding(12.dp), style = AppTypography.Body)
@@ -53,11 +53,11 @@ fun CompanyScreen(viewModel: MainViewModel) {
         /* SSM注册号解析 */
         if (activeTab == 0) {
             item {
-                Text("SSM 企业注册号解析", style = AppTypography.Title, color = NavyBlue.N50)
+                Text("SSM 企业注册号解析", style = AppTypography.Title, color = MaterialTheme.colorScheme.onBackground)
                 Text(
                     "解析马来西亚公司委员会(SSM)注册号，识别实体类型",
                     style = AppTypography.Caption,
-                    color = NavyBlue.N400
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 
@@ -80,8 +80,8 @@ fun CompanyScreen(viewModel: MainViewModel) {
                     SectionHeader("解析结果")
                     Card(
                         shape = RoundedCornerShape(12.dp),
-                        colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
-                        border = BorderStroke(1.dp, NavyBlue.N700)
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                     ) {
                         Column(Modifier.padding(16.dp)) {
                             InfoRow("注册号", result.registrationNumber, isMono = true)
@@ -96,11 +96,11 @@ fun CompanyScreen(viewModel: MainViewModel) {
         /* 企业黄页搜索 */
         if (activeTab == 1) {
             item {
-                Text("企业黄页搜索", style = AppTypography.Title, color = NavyBlue.N50)
+                Text("企业黄页搜索", style = AppTypography.Title, color = MaterialTheme.colorScheme.onBackground)
                 Text(
                     "搜索马来西亚黄页(MalaysiaYP)企业信息，同时联动反诈骗数据库",
                     style = AppTypography.Caption,
-                    color = NavyBlue.N400
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 
@@ -126,8 +126,8 @@ fun CompanyScreen(viewModel: MainViewModel) {
                     SectionHeader("企业信息")
                     Card(
                         shape = RoundedCornerShape(12.dp),
-                        colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
-                        border = BorderStroke(1.dp, NavyBlue.N700)
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                     ) {
                         Column(Modifier.padding(16.dp)) {
                             InfoRow("企业名称", company.name)

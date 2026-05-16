@@ -16,7 +16,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.osint.malaysia.ui.screens.*
-import com.osint.malaysia.ui.theme.NavyBlue
 import com.osint.malaysia.viewmodel.MainViewModel
 import com.osint.malaysia.viewmodel.SettingsViewModel
 
@@ -64,26 +63,26 @@ fun MainNavigation(
     val currentRoute = navBackStackEntry?.destination?.route
 
     Scaffold(
-        containerColor = NavyBlue.N950,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = {
                     Text(
                         "马来西亚OSINT",
-                        color = NavyBlue.N50,
+                        color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.titleLarge
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = NavyBlue.N900,
-                    titleContentColor = NavyBlue.N50
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground
                 )
             )
         },
         bottomBar = {
             NavigationBar(
-                containerColor = NavyBlue.N900,
-                contentColor = NavyBlue.N200
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface
             ) {
                 bottomNavItems.forEach { item ->
                     NavigationBarItem(
@@ -111,11 +110,11 @@ fun MainNavigation(
                             }
                         },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = NavyBlue.N200,
-                            selectedTextColor = NavyBlue.N200,
-                            unselectedIconColor = NavyBlue.N500,
-                            unselectedTextColor = NavyBlue.N500,
-                            indicatorColor = NavyBlue.N700
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            indicatorColor = MaterialTheme.colorScheme.primaryContainer
                         )
                     )
                 }

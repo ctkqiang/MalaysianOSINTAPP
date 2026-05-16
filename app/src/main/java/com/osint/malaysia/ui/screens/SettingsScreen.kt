@@ -10,13 +10,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.osint.malaysia.ui.theme.Accent
 import com.osint.malaysia.ui.theme.AppTypography
-import com.osint.malaysia.ui.theme.NavyBlue
 import com.osint.malaysia.viewmodel.SettingsViewModel
 import com.osint.malaysia.viewmodel.ThemeMode
 
@@ -32,24 +32,24 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
     ) {
         /* 主题设置 */
         item {
-            Text("外观设置", style = AppTypography.Title, color = NavyBlue.N50)
+            Text("外观设置", style = AppTypography.Title, color = MaterialTheme.colorScheme.onBackground)
         }
 
         item {
             Card(
                 shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
-                border = BorderStroke(1.dp, NavyBlue.N700)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
             ) {
                 Column {
                     ThemeOption("跟随系统", "自动匹配系统浅色/深色模式", themeMode == ThemeMode.AUTO) {
                         settingsViewModel.setThemeMode(ThemeMode.AUTO)
                     }
-                    HorizontalDivider(color = NavyBlue.N800)
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                     ThemeOption("浅色模式", "始终使用浅色主题", themeMode == ThemeMode.LIGHT) {
                         settingsViewModel.setThemeMode(ThemeMode.LIGHT)
                     }
-                    HorizontalDivider(color = NavyBlue.N800)
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                     ThemeOption("深色模式", "始终使用深色主题", themeMode == ThemeMode.DARK) {
                         settingsViewModel.setThemeMode(ThemeMode.DARK)
                     }
@@ -60,14 +60,14 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
         /* 语言设置 */
         item {
             Spacer(Modifier.height(8.dp))
-            Text("语言设置", style = AppTypography.Title, color = NavyBlue.N50)
+            Text("语言设置", style = AppTypography.Title, color = MaterialTheme.colorScheme.onBackground)
         }
 
         item {
             Card(
                 shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
-                border = BorderStroke(1.dp, NavyBlue.N700)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
             ) {
                 Row(
                     modifier = Modifier
@@ -78,26 +78,26 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
                     Icon(
                         Icons.Default.Translate,
                         null,
-                        tint = NavyBlue.N400,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(24.dp)
                     )
                     Spacer(Modifier.width(12.dp))
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("内容翻译为中文", style = AppTypography.Body, color = NavyBlue.N50)
+                        Text("内容翻译为中文", style = AppTypography.Body, color = MaterialTheme.colorScheme.onBackground)
                         Text(
                             "将API返回的马来文/英文内容翻译为中文显示",
                             style = AppTypography.Caption,
-                            color = NavyBlue.N500
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                     Switch(
                         checked = translateChinese,
                         onCheckedChange = { settingsViewModel.setTranslateChinese(it) },
                         colors = SwitchDefaults.colors(
-                            checkedThumbColor = NavyBlue.N50,
-                            checkedTrackColor = NavyBlue.N500,
-                            uncheckedThumbColor = NavyBlue.N400,
-                            uncheckedTrackColor = NavyBlue.N800
+                            checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                            checkedTrackColor = MaterialTheme.colorScheme.primary,
+                            uncheckedThumbColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            uncheckedTrackColor = MaterialTheme.colorScheme.outlineVariant
                         )
                     )
                 }
@@ -107,14 +107,14 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
         /* 应用信息 */
         item {
             Spacer(Modifier.height(8.dp))
-            Text("关于", style = AppTypography.Title, color = NavyBlue.N50)
+            Text("关于", style = AppTypography.Title, color = MaterialTheme.colorScheme.onBackground)
         }
 
         item {
             Card(
                 shape = RoundedCornerShape(12.dp),
-                colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
-                border = BorderStroke(1.dp, NavyBlue.N700)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
             ) {
                 Column(Modifier.padding(16.dp)) {
                     InfoRow("应用名称", "马来西亚OSINT")
@@ -130,7 +130,7 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
             Text(
                 "本应用仅供安全研究与合法授权测试使用。使用者应遵守马来西亚相关法律法规，对自身行为负责。",
                 style = AppTypography.Caption,
-                color = NavyBlue.N600
+                color = MaterialTheme.colorScheme.outline
             )
         }
     }
@@ -143,8 +143,8 @@ private fun InfoRow(label: String, value: String) {
             .fillMaxWidth()
             .padding(vertical = 4.dp)
     ) {
-        Text("$label: ", style = AppTypography.Caption, color = NavyBlue.N400)
-        Text(value, style = AppTypography.Body, color = NavyBlue.N100)
+        Text("$label: ", style = AppTypography.Caption, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(value, style = AppTypography.Body, color = MaterialTheme.colorScheme.onSurface)
     }
 }
 
@@ -166,14 +166,14 @@ private fun ThemeOption(
             selected = isSelected,
             onClick = onClick,
             colors = RadioButtonDefaults.colors(
-                selectedColor = NavyBlue.N400,
-                unselectedColor = NavyBlue.N600
+                selectedColor = MaterialTheme.colorScheme.primary,
+                unselectedColor = MaterialTheme.colorScheme.outline
             )
         )
         Spacer(Modifier.width(12.dp))
         Column {
-            Text(title, style = AppTypography.Body, color = NavyBlue.N50)
-            Text(description, style = AppTypography.Caption, color = NavyBlue.N500)
+            Text(title, style = AppTypography.Body, color = MaterialTheme.colorScheme.onBackground)
+            Text(description, style = AppTypography.Caption, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
