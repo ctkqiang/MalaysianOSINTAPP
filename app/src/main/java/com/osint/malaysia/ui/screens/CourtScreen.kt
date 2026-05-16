@@ -181,7 +181,7 @@ private fun ECourtCaseCard(index: Int, item: ECourtItem) {
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    item.title.ifBlank { "案件 #$index" },
+                    item.keyWord.ifBlank { item.caseNo.ifBlank { "案件 #$index" } },
                     style = AppTypography.Subtitle.copy(fontWeight = FontWeight.SemiBold),
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
@@ -194,18 +194,18 @@ private fun ECourtCaseCard(index: Int, item: ECourtItem) {
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
             Spacer(Modifier.height(12.dp))
-            /* 案件信息网格 */
+            /* 案件信息 */
             if (item.caseNo.isNotBlank()) {
                 ECourtInfoRow("案件编号", item.caseNo)
             }
-            if (item.court.isNotBlank()) {
-                ECourtInfoRow("法院", item.court)
-            }
-            if (item.judgeName.isNotBlank()) {
-                ECourtInfoRow("法官", item.judgeName)
-            }
             if (item.parties.isNotBlank()) {
                 ECourtInfoRow("当事人", item.parties)
+            }
+            if (item.judge.isNotBlank()) {
+                ECourtInfoRow("法官", item.judge)
+            }
+            if (item.corumJudge.isNotBlank() && item.corumJudge != item.judge) {
+                ECourtInfoRow("合议庭", item.corumJudge)
             }
             if (item.dateOfAP.isNotBlank()) {
                 ECourtInfoRow("上诉日期", item.dateOfAP)
@@ -213,8 +213,14 @@ private fun ECourtCaseCard(index: Int, item: ECourtItem) {
             if (item.dateOfResult.isNotBlank()) {
                 ECourtInfoRow("判决日期", item.dateOfResult)
             }
-            if (item.fileName.isNotBlank()) {
-                ECourtInfoRow("文件", item.fileName)
+            if (item.eJudgUniqueID.isNotBlank()) {
+                ECourtInfoRow("案件ID", item.eJudgUniqueID)
+            }
+            /* 关联文档 */
+            item.listOfAPDoc?.forEach { doc ->
+                if (doc.fileName.isNotBlank()) {
+                    ECourtInfoRow("文件", "${doc.fileName} (${doc.documentType})")
+                }
             }
         }
     }

@@ -75,29 +75,40 @@ data class ECourtParam(
     @SerializedName("Ordering") val ordering: String = "DATE_OF_AP_DESC"
 )
 
-/* e-Court ASMX响应封装 */
+/* e-Court ASMX响应封装 — 匹配identity_scanner的JSON键名 */
 data class ECourtEnvelope(
     @SerializedName("d") val d: ECourtResult? = null
 )
 
 data class ECourtResult(
-    @SerializedName("SearchList") val searchList: List<ECourtItem>? = null,
-    @SerializedName("TotalRecords") val totalRecords: Int = 0,
-    @SerializedName("CurrPage") val currPage: Int = 1,
-    @SerializedName("TotalPage") val totalPage: Int = 0
-)
+    @SerializedName("__type") val type: String = "",
+    @SerializedName("ListOfSearchItem") val listOfSearchItem: List<ECourtItem>? = null,
+    @SerializedName("RECS_PER_PAGE") val recsPerPage: Int = 0,
+    @SerializedName("TOTAL_RECORD") val totalRecord: Int = 0,
+    @SerializedName("TOTAL_PAGE") val totalPage: Int = 0
+) {
+    val searchList: List<ECourtItem> get() = listOfSearchItem ?: emptyList()
+    val totalRecords: Int get() = totalRecord
+    val currPage: Int get() = recsPerPage
+}
 
 data class ECourtItem(
-    @SerializedName("DocumentID") val documentId: String = "",
+    @SerializedName("No") val no: String = "",
     @SerializedName("CaseNo") val caseNo: String = "",
-    @SerializedName("Title") val title: String = "",
     @SerializedName("Parties") val parties: String = "",
-    @SerializedName("Court") val court: String = "",
-    @SerializedName("JudgeName") val judgeName: String = "",
+    @SerializedName("KeyWord") val keyWord: String = "",
     @SerializedName("DateOfAP") val dateOfAP: String = "",
     @SerializedName("DateOfResult") val dateOfResult: String = "",
-    @SerializedName("GroundsOfJudgment") val groundsOfJudgment: String = "",
-    @SerializedName("FileName") val fileName: String = ""
+    @SerializedName("Judge") val judge: String = "",
+    @SerializedName("CorumJudge") val corumJudge: String = "",
+    @SerializedName("eJudgUniqueID") val eJudgUniqueID: String = "",
+    @SerializedName("ListOfAPDoc") val listOfAPDoc: List<ECourtDoc>? = null
+)
+
+data class ECourtDoc(
+    @SerializedName("FileName") val fileName: String = "",
+    @SerializedName("DocumentID") val documentId: String = "",
+    @SerializedName("DocumentType") val documentType: String = ""
 )
 
 /* SSM 企业注册号信息 */
