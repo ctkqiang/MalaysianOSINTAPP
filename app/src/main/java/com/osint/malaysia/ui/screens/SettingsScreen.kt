@@ -42,15 +42,11 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
                 border = BorderStroke(1.dp, NavyBlue.N700)
             ) {
                 Column {
-                    ThemeOption("跟随系统", "自动匹配系统深色/浅色模式", themeMode == ThemeMode.AUTO) {
+                    ThemeOption("跟随系统", "自动匹配系统深色模式", themeMode == ThemeMode.AUTO) {
                         settingsViewModel.setThemeMode(ThemeMode.AUTO)
                     }
                     HorizontalDivider(color = NavyBlue.N800)
-                    ThemeOption("浅色模式", "始终使用浅色主题", themeMode == ThemeMode.LIGHT) {
-                        settingsViewModel.setThemeMode(ThemeMode.LIGHT)
-                    }
-                    HorizontalDivider(color = NavyBlue.N800)
-                    ThemeOption("深色模式", "始终使用深色主题", themeMode == ThemeMode.DARK) {
+                    ThemeOption("始终深色", "强制使用深色主题", themeMode == ThemeMode.DARK) {
                         settingsViewModel.setThemeMode(ThemeMode.DARK)
                     }
                 }

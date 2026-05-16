@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 private val Context.dataStore by preferencesDataStore(name = "osint_settings")
 
-enum class ThemeMode { AUTO, LIGHT, DARK }
+enum class ThemeMode { AUTO, DARK }
 
 class SettingsViewModel(private val context: Context) : ViewModel() {
 
@@ -29,7 +29,7 @@ class SettingsViewModel(private val context: Context) : ViewModel() {
         val KEY_TRANSLATE_CHINESE = booleanPreferencesKey("translate_chinese")
     }
 
-    private val _themeMode = MutableStateFlow(ThemeMode.AUTO)
+    private val _themeMode = MutableStateFlow(ThemeMode.DARK)
     val themeMode: StateFlow<ThemeMode> = _themeMode.asStateFlow()
 
     private val _translateChinese = MutableStateFlow(true)
@@ -38,8 +38,8 @@ class SettingsViewModel(private val context: Context) : ViewModel() {
     init {
         viewModelScope.launch {
             context.dataStore.data.collect { preferences ->
-                val modeStr = preferences[KEY_THEME_MODE] ?: "AUTO"
-                _themeMode.value = try { ThemeMode.valueOf(modeStr) } catch (_: Exception) { ThemeMode.AUTO }
+                val modeStr = preferences[KEY_THEME_MODE] ?: "DARK"
+                _themeMode.value = try { ThemeMode.valueOf(modeStr) } catch (_: Exception) { ThemeMode.DARK }
                 _translateChinese.value = preferences[KEY_TRANSLATE_CHINESE] ?: true
                 LogUtil.i(tag, "设置加载完成 → 主题: ${_themeMode.value}, 中文翻译: ${_translateChinese.value}")
             }

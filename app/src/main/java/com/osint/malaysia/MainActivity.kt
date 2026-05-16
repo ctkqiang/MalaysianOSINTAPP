@@ -36,7 +36,6 @@ class MainActivity : ComponentActivity() {
             val useDarkTheme = when (themeMode) {
                 ThemeMode.AUTO -> androidx.compose.foundation.isSystemInDarkTheme()
                 ThemeMode.DARK -> true
-                ThemeMode.LIGHT -> false
             }
 
             MalaysianOSINTTheme(darkTheme = useDarkTheme) {
