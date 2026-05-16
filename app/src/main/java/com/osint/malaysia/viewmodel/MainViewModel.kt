@@ -45,6 +45,10 @@ class MainViewModel : ViewModel() {
     private val _ecourtResult = MutableStateFlow<ECourtResult?>(null)
     val ecourtResult: StateFlow<ECourtResult?> = _ecourtResult.asStateFlow()
 
+    /* e-Court原始JSON（解析失败时备用） */
+    private val _ecourtRawJson = MutableStateFlow("")
+    val ecourtRawJson: StateFlow<String> = _ecourtRawJson.asStateFlow()
+
     /* BNM警示名单 */
     private val _bnmResult = MutableStateFlow<BNMResponse?>(null)
     val bnmResult: StateFlow<BNMResponse?> = _bnmResult.asStateFlow()
@@ -135,11 +139,13 @@ class MainViewModel : ViewModel() {
 
             repository.searchECourt(name)
                 .onSuccess { rawJson ->
+                    _ecourtRawJson.value = rawJson
                     _ecourtResult.value = try {
                         val envelope = com.google.gson.Gson().fromJson(rawJson, ECourtEnvelope::class.java)
+                        LogUtil.d(tag, "e-Court解析: d=${envelope.d != null}, searchList=${envelope.d?.searchList?.size}")
                         envelope.d
                     } catch (e: Exception) {
-                        LogUtil.e(tag, "e-Court JSON解析失败", e)
+                        LogUtil.e(tag, "e-Court JSON解析失败,保留原始数据", e)
                         null
                     }
                 }
