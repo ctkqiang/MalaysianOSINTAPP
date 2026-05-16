@@ -8,6 +8,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
 import xin.ctkqiang.malaysianosint.ui.screens.AboutScreen
 import xin.ctkqiang.malaysianosint.ui.screens.HomeScreen
 import xin.ctkqiang.malaysianosint.ui.screens.SettingsScreen
@@ -19,6 +21,7 @@ enum class BottomTab(val label: String, val icon: ImageVector) {
     ABOUT("关于", Icons.Filled.Info),
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(viewModel: MainViewModel) {
     var selectedTab by remember { mutableStateOf(BottomTab.HOME) }
