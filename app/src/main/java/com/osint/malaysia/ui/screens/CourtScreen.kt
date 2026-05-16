@@ -2,7 +2,10 @@
 
 package com.osint.malaysia.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -13,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -157,12 +161,27 @@ fun CourtScreen(viewModel: MainViewModel) {
 /* 法庭案件卡片 */
 @Composable
 private fun ECourtCaseCard(index: Int, item: ECourtItem) {
+    val context = LocalContext.current
+
+    /* 构造文档URL — 匹配identity_scanner的openCaseDocument */
+    val documentId = item.listOfAPDoc?.firstOrNull()?.documentId?.ifBlank { null }
+        ?: item.eJudgUniqueID.ifBlank { null }
+    val documentUrl = documentId?.let {
+        "https://efs.kehakiman.gov.my/EFSWeb/DocDownloader.aspx?DocumentID=$it&Inline=true"
+    }
+
     Card(
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        modifier = if (documentUrl != null) {
+            Modifier.clickable {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(documentUrl))
+                context.startActivity(intent)
+            }
+        } else Modifier
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             /* 案件标题行 */
@@ -188,6 +207,16 @@ private fun ECourtCaseCard(index: Int, item: ECourtItem) {
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.weight(1f)
                 )
+                /* PDF图标指示可点击 */
+                if (documentUrl != null) {
+                    Spacer(Modifier.width(6.dp))
+                    Icon(
+                        Icons.Default.PictureAsPdf,
+                        contentDescription = "查看PDF",
+                        tint = Accent.Red,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
             }
 
             Spacer(Modifier.height(12.dp))
@@ -220,6 +249,29 @@ private fun ECourtCaseCard(index: Int, item: ECourtItem) {
             item.listOfAPDoc?.forEach { doc ->
                 if (doc.fileName.isNotBlank()) {
                     ECourtInfoRow("文件", "${doc.fileName} (${doc.documentType})")
+                }
+            }
+
+            /* 点击查看PDF提示 */
+            if (documentUrl != null) {
+                Spacer(Modifier.height(10.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Icons.Default.OpenInBrowser,
+                        null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(Modifier.width(6.dp))
+                    Text(
+                        "点击查看判决书PDF",
+                        style = AppTypography.Caption.copy(fontWeight = FontWeight.Medium),
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 }
             }
         }
