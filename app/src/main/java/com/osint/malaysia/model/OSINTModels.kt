@@ -103,7 +103,14 @@ data class ECourtItem(
     @SerializedName("CorumJudge") val corumJudge: String = "",
     @SerializedName("eJudgUniqueID") val eJudgUniqueID: String = "",
     @SerializedName("ListOfAPDoc") val listOfAPDoc: List<ECourtDoc>? = null
-)
+) {
+    /* 去除HTML标签的干净字段 — 匹配identity_scanner的cleanCaseNo/cleanParties/cleanCorumJudge */
+    val cleanCaseNo: String get() = caseNo.stripHtml()
+    val cleanParties: String get() = parties.stripHtml()
+    val cleanCorumJudge: String get() = corumJudge.stripHtml()
+    val cleanJudge: String get() = judge.stripHtml()
+    val cleanKeyWord: String get() = keyWord.stripHtml()
+}
 
 data class ECourtDoc(
     @SerializedName("FileName") val fileName: String = "",
@@ -195,3 +202,8 @@ enum class SSMEntityType(val code: String, val nameCn: String) {
             entries.find { it.code == code } ?: UNKNOWN
     }
 }
+
+/* HTML标签清除 — 匹配identity_scanner的RegExp(r'<[^>]*>') */
+private val htmlTagRegex = Regex("<[^>]*>")
+
+fun String.stripHtml(): String = this.replace(htmlTagRegex, "").trim()

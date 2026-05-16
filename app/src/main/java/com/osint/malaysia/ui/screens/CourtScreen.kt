@@ -181,7 +181,7 @@ private fun ECourtCaseCard(index: Int, item: ECourtItem) {
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    item.keyWord.ifBlank { item.caseNo.ifBlank { "案件 #$index" } },
+                    item.cleanKeyWord.ifBlank { item.cleanCaseNo.ifBlank { "案件 #$index" } },
                     style = AppTypography.Subtitle.copy(fontWeight = FontWeight.SemiBold),
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
@@ -194,18 +194,18 @@ private fun ECourtCaseCard(index: Int, item: ECourtItem) {
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
             Spacer(Modifier.height(12.dp))
-            /* 案件信息 */
-            if (item.caseNo.isNotBlank()) {
-                ECourtInfoRow("案件编号", item.caseNo)
+            /* 案件信息 — 使用clean*字段去除HTML标签 */
+            if (item.cleanCaseNo.isNotBlank()) {
+                ECourtInfoRow("案件编号", item.cleanCaseNo)
             }
-            if (item.parties.isNotBlank()) {
-                ECourtInfoRow("当事人", item.parties)
+            if (item.cleanParties.isNotBlank()) {
+                ECourtInfoRow("当事人", item.cleanParties)
             }
-            if (item.judge.isNotBlank()) {
-                ECourtInfoRow("法官", item.judge)
+            if (item.cleanJudge.isNotBlank()) {
+                ECourtInfoRow("法官", item.cleanJudge)
             }
-            if (item.corumJudge.isNotBlank() && item.corumJudge != item.judge) {
-                ECourtInfoRow("合议庭", item.corumJudge)
+            if (item.cleanCorumJudge.isNotBlank() && item.cleanCorumJudge != item.cleanJudge) {
+                ECourtInfoRow("合议庭", item.cleanCorumJudge)
             }
             if (item.dateOfAP.isNotBlank()) {
                 ECourtInfoRow("上诉日期", item.dateOfAP)
