@@ -31,7 +31,7 @@ class OSINTRepository {
 
     private val bnmService = ApiClient.createRetrofit("https://www.bnm.gov.my/")
         .create(OSINTService::class.java)
-
+ 
     private val httpClient = ApiClient.getHttpClient()
 
     /* ===== PDRM Semak Mule 反诈骗查询 ===== */
