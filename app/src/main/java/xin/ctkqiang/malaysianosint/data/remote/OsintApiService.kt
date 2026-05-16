@@ -28,7 +28,7 @@ class OsintApiService {
         .readTimeout(15, TimeUnit.SECONDS)
         .build()
 
-    private val gson = Gson()
+    @PublishedApi internal val gson = Gson()
 
     /**
      * 根据模块类型和查询参数向本地代理 (C 后端) 或直连 API 发起请求。
@@ -57,7 +57,7 @@ class OsintApiService {
         }
     }
 
-    /** 解析 JSON 为指定类型 */
+    /** 解析 JSON 为指定类型 (通过 Gson TypeToken) */
     inline fun <reified T> parseJson(json: String): T = gson.fromJson(json, T::class.java)
 
     /** 解析 HTML 为 Jsoup Document */
