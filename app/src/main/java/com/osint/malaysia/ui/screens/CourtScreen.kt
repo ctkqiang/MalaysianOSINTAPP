@@ -21,7 +21,6 @@ import com.osint.malaysia.model.ECourtItem
 import com.osint.malaysia.ui.components.*
 import com.osint.malaysia.ui.theme.Accent
 import com.osint.malaysia.ui.theme.AppTypography
-import com.osint.malaysia.ui.theme.NavyBlue
 import com.osint.malaysia.viewmodel.MainViewModel
 
 @Composable
@@ -29,6 +28,7 @@ fun CourtScreen(viewModel: MainViewModel) {
     var nameQuery by remember { mutableStateOf("") }
     val isLoading by viewModel.isLoading.collectAsState()
     val ecourtResult by viewModel.ecourtResult.collectAsState()
+    val ecourtRawJson by viewModel.ecourtRawJson.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
 
     LazyColumn(
@@ -76,8 +76,9 @@ fun CourtScreen(viewModel: MainViewModel) {
             item { LoadingOverlay(true) }
         }
 
-        /* 解析后结果 */
-        ecourtResult?.let { result ->
+        /* 搜索结果 */
+        if (ecourtResult != null) {
+            val result = ecourtResult!!
             val cases = result.searchList ?: emptyList()
 
             /* 结果概览 */
@@ -113,7 +114,7 @@ fun CourtScreen(viewModel: MainViewModel) {
                             )
                             Spacer(Modifier.width(12.dp))
                             Text(
-                                "未找到相关法庭记录 — 该姓名/关键词无判决记录",
+                                "未找到相关法庭记录",
                                 style = AppTypography.Body,
                                 color = Accent.Green
                             )
@@ -123,6 +124,30 @@ fun CourtScreen(viewModel: MainViewModel) {
             } else {
                 itemsIndexed(cases) { index, item ->
                     ECourtCaseCard(index = index + 1, item = item)
+                }
+            }
+        } else if (ecourtRawJson.isNotEmpty()) {
+            /* 解析失败,回退显示原始JSON */
+            item {
+                SectionHeader("API原始响应（解析失败）")
+            }
+            item {
+                Card(
+                    shape = RoundedCornerShape(14.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                ) {
+                    Text(
+                        text = try {
+                            com.google.gson.GsonBuilder().setPrettyPrinting()
+                                .create().toJson(com.google.gson.JsonParser.parseString(ecourtRawJson))
+                        } catch (_: Exception) { ecourtRawJson }
+                            .take(8000),
+                        style = AppTypography.Mono,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.padding(14.dp)
+                    )
                 }
             }
         }
