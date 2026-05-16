@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 private val Context.dataStore by preferencesDataStore(name = "osint_settings")
 
-enum class ThemeMode { AUTO, DARK }
+enum class ThemeMode { AUTO, LIGHT, DARK }
 
 class SettingsViewModel(private val context: Context) : ViewModel() {
 

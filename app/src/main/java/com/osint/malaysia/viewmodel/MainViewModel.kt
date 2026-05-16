@@ -42,8 +42,8 @@ class MainViewModel : ViewModel() {
     val companyResult: StateFlow<CompanyInfo?> = _companyResult.asStateFlow()
 
     /* e-Court法庭结果 */
-    private val _ecourtResult = MutableStateFlow("")
-    val ecourtResult: StateFlow<String> = _ecourtResult.asStateFlow()
+    private val _ecourtResult = MutableStateFlow<ECourtResult?>(null)
+    val ecourtResult: StateFlow<ECourtResult?> = _ecourtResult.asStateFlow()
 
     /* BNM警示名单 */
     private val _bnmResult = MutableStateFlow<BNMResponse?>(null)
@@ -134,7 +134,15 @@ class MainViewModel : ViewModel() {
             _errorMessage.value = null
 
             repository.searchECourt(name)
-                .onSuccess { _ecourtResult.value = it }
+                .onSuccess { rawJson ->
+                    _ecourtResult.value = try {
+                        val envelope = com.google.gson.Gson().fromJson(rawJson, ECourtEnvelope::class.java)
+                        envelope.d
+                    } catch (e: Exception) {
+                        LogUtil.e(tag, "e-Court JSON解析失败", e)
+                        null
+                    }
+                }
                 .onFailure { _errorMessage.value = "法庭查询失败: ${it.message}" }
 
             _isLoading.value = false

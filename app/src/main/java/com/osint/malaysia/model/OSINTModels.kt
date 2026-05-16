@@ -75,6 +75,31 @@ data class ECourtParam(
     @SerializedName("Ordering") val ordering: String = "DATE_OF_AP_DESC"
 )
 
+/* e-Court ASMX响应封装 */
+data class ECourtEnvelope(
+    @SerializedName("d") val d: ECourtResult? = null
+)
+
+data class ECourtResult(
+    @SerializedName("SearchList") val searchList: List<ECourtItem>? = null,
+    @SerializedName("TotalRecords") val totalRecords: Int = 0,
+    @SerializedName("CurrPage") val currPage: Int = 1,
+    @SerializedName("TotalPage") val totalPage: Int = 0
+)
+
+data class ECourtItem(
+    @SerializedName("DocumentID") val documentId: String = "",
+    @SerializedName("CaseNo") val caseNo: String = "",
+    @SerializedName("Title") val title: String = "",
+    @SerializedName("Parties") val parties: String = "",
+    @SerializedName("Court") val court: String = "",
+    @SerializedName("JudgeName") val judgeName: String = "",
+    @SerializedName("DateOfAP") val dateOfAP: String = "",
+    @SerializedName("DateOfResult") val dateOfResult: String = "",
+    @SerializedName("GroundsOfJudgment") val groundsOfJudgment: String = "",
+    @SerializedName("FileName") val fileName: String = ""
+)
+
 /* SSM 企业注册号信息 */
 data class SSMInfo(
     val registrationNumber: String = "",
