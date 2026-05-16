@@ -1,4 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 马来西亚OSINT — 中文字符串资源 -->
 <resources>
     <string name="app_name">马来西亚OSINT</string>
+    <string name="tab_home">首页</string>
+    <string name="tab_id">身份证</string>
+    <string name="tab_company">企业</string>
+    <string name="tab_social">社交</string>
+    <string name="tab_court">法庭</string>
+    <string name="tab_settings">设置</string>
+    <string name="action_search">搜索</string>
+    <string name="action_settings">设置</string>
+    <string name="action_about">关于</string>
+    <string name="search_hint_phone">输入电话号码或银行账号</string>
+    <string name="search_hint_ic">输入身份证号码 (IC)</string>
+    <string name="search_hint_name">输入姓名</string>
+    <string name="search_hint_ssm">输入SSM注册号</string>
+    <string name="search_hint_company">输入企业名称关键词</string>
+    <string name="search_hint_social">输入社交媒体用户名</string>
+    <string name="btn_search">查询</string>
+    <string name="btn_clear">清除</string>
+    <string name="label_loading">查询中…</string>
+    <string name="label_no_results">未找到相关结果</string>
+    <string name="label_error">查询出错，请重试</string>
+    <string name="label_network_error">网络连接失败，请检查网络</string>
+    <string name="label_result_count">共 %d 条结果</string>
+    <string name="settings_theme">主题模式</string>
+    <string name="settings_theme_auto">跟随系统</string>
+    <string name="settings_theme_light">浅色模式</string>
+    <string name="settings_theme_dark">深色模式</string>
+    <string name="settings_language">内容翻译</string>
+    <string name="settings_language_chinese">翻译为中文</string>
+    <string name="settings_language_original">保留原文</string>
+    <string name="about_title">关于马来西亚OSINT</string>
+    <string name="about_version">版本 1.0.0</string>
+    <string name="about_description">马来西亚开源情报采集工具，集成多源数据查询能力，支持身份证、企业、法庭记录、社交媒体等信息的合法检索与分析。\n\n本应用遵循马来西亚法律法规，仅供安全研究与授权测试使用。</string>
+    <string name="about_author">作者: 钟智强</string>
+    <string name="about_email">ctkqiang@dingtalk.com</string>
+    <string name="about_repo">https://gitcode.com/ctkqiang_sr/MalaysianOSINTAPP.git</string>
 </resources>

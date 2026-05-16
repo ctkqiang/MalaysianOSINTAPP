@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 马来西亚OSINT — 警蓝主题色板 -->
+<resources>
+    <color name="navy_950">#FF0A1628</color>
+    <color name="navy_900">#FF0D1F3C</color>
+    <color name="navy_800">#FF122A52</color>
+    <color name="navy_700">#FF1A3A6E</color>
+    <color name="navy_600">#FF244B8A</color>
+    <color name="navy_500">#FF2E5CA6</color>
+    <color name="navy_400">#FF3D74C9</color>
+    <color name="navy_300">#FF6B95DD</color>
+    <color name="navy_200">#FF9AB8EE</color>
+    <color name="navy_100">#FFC5D6F5</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+</resources>

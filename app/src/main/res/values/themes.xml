@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 马来西亚OSINT — Android系统主题（Compose接管后仅作启动背景） -->
 <resources>
     <style name="Theme.MalaysianOSINT" parent="android:Theme.Material.NoActionBar">
-        <item name="android:statusBarColor">#FF002952</item>
-        <item name="android:navigationBarColor">#FF0A0F1A</item>
-        <item name="android:windowBackground">#FF0A0F1A</item>
+        <item name="android:colorBackground">#FF0A1628</item>
+        <item name="android:statusBarColor">#FF0A1628</item>
+        <item name="android:navigationBarColor">#FF0A1628</item>
     </style>
 </resources>
