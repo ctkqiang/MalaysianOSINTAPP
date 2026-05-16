@@ -12,18 +12,37 @@ import xin.ctkqiang.malaysianosint.ui.screens.HomeScreen
 import xin.ctkqiang.malaysianosint.ui.screens.SettingsScreen
 import xin.ctkqiang.malaysianosint.ui.MainViewModel
 
-/** 底部导航标签定义 */
 enum class BottomTab(val label: String, val icon: ImageVector) {
     HOME("首页", Icons.Filled.Search),
     SETTINGS("设置", Icons.Filled.Settings),
     ABOUT("关于", Icons.Filled.Info),
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(viewModel: MainViewModel) {
     var selectedTab by remember { mutableStateOf(BottomTab.HOME) }
+    var showSettings by remember { mutableStateOf(false) }
+
+    if (showSettings) {
+        SettingsScreen(viewModel = viewModel, onBack = { showSettings = false })
+        return
+    }
 
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("马来西亚 OSINT", color = MaterialTheme.colorScheme.onPrimary) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                ),
+                actions = {
+                    IconButton(onClick = { showSettings = true }) {
+                        Icon(Icons.Filled.Settings, "设置", tint = MaterialTheme.colorScheme.onPrimary)
+                    }
+                },
+            )
+        },
         bottomBar = {
             NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
                 BottomTab.entries.forEach { tab ->
