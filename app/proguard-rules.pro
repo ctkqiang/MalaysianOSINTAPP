@@ -1,0 +1,4 @@
+-keepattributes *Annotation*
+-keep class xin.ctkqiang.malaysianosint.** { *; }
+-dontwarn okhttp3.**
+-dontwarn okio.**
