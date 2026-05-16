@@ -26,8 +26,8 @@ class MainViewModel : ViewModel() {
     val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
 
     /* Semak Mule 反诈骗结果 */
-    private val _semakMuleResult = MutableStateFlow("")
-    val semakMuleResult: StateFlow<String> = _semakMuleResult.asStateFlow()
+    private val _semakMuleResult = MutableStateFlow<SemakMuleResponse?>(null)
+    val semakMuleResult: StateFlow<SemakMuleResponse?> = _semakMuleResult.asStateFlow()
 
     /* 身份证综合查询结果 */
     private val _idCheckResult = MutableStateFlow<IDCheckResult?>(null)
@@ -64,7 +64,14 @@ class MainViewModel : ViewModel() {
             _errorMessage.value = null
 
             repository.querySemakMule(query)
-                .onSuccess { _semakMuleResult.value = it }
+                .onSuccess { rawJson ->
+                    _semakMuleResult.value = try {
+                        com.google.gson.Gson().fromJson(rawJson, SemakMuleResponse::class.java)
+                    } catch (e: Exception) {
+                        LogUtil.e(tag, "Semak Mule JSON解析失败", e)
+                        null
+                    }
+                }
                 .onFailure { _errorMessage.value = "查询失败: ${it.message}" }
 
             _isLoading.value = false
@@ -104,9 +111,14 @@ class MainViewModel : ViewModel() {
             _errorMessage.value = null
 
             repository.queryCompanyComprehensive(keyword)
-                .onSuccess { (company, semakMule) ->
+                .onSuccess { (company, semakMuleJson) ->
                     _companyResult.value = company
-                    _semakMuleResult.value = semakMule
+                    _semakMuleResult.value = try {
+                        com.google.gson.Gson().fromJson(semakMuleJson, SemakMuleResponse::class.java)
+                    } catch (e: Exception) {
+                        LogUtil.e(tag, "企业查询-Semak Mule JSON解析失败", e)
+                        null
+                    }
                 }
                 .onFailure { _errorMessage.value = "企业查询失败: ${it.message}" }
 

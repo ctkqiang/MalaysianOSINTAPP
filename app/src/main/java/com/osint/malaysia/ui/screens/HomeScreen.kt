@@ -3,9 +3,11 @@
 package com.osint.malaysia.ui.screens
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -13,8 +15,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.osint.malaysia.model.SemakMuleResponse
 import com.osint.malaysia.ui.components.*
 import com.osint.malaysia.ui.theme.Accent
 import com.osint.malaysia.ui.theme.AppTypography
@@ -95,20 +101,113 @@ fun HomeScreen(viewModel: MainViewModel) {
         }
 
         /* Semak Mule结果 */
-        if (semakMuleResult.isNotEmpty()) {
+        semakMuleResult?.let { result ->
             item {
-                SectionHeader("查询结果")
+                val reportCount = result.count ?: 0
+                val rows = result.tableData ?: emptyList()
+                val riskLevel = when {
+                    reportCount > 10 -> Triple("⚠ 高风险", Accent.Red, "该号码/账号涉及多起诈骗举报")
+                    reportCount > 0 -> Triple("⚡ 存在风险", Accent.Orange, "该号码/账号有诈骗相关记录")
+                    else -> Triple("✓ 未发现风险", Accent.Green, "数据库中未查询到诈骗记录")
+                }
+
+                /* 风险状态横幅 */
                 Card(
                     shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, NavyBlue.N700)
+                    colors = CardDefaults.cardColors(
+                        containerColor = riskLevel.second.copy(alpha = 0.12f)
+                    ),
+                    border = BorderStroke(1.dp, riskLevel.second.copy(alpha = 0.3f))
                 ) {
-                    Text(
-                        text = semakMuleResult,
-                        style = AppTypography.Mono,
-                        color = NavyBlue.N100,
-                        modifier = Modifier.padding(12.dp)
-                    )
+                    Row(
+                        modifier = Modifier.padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .clip(CircleShape)
+                                .background(riskLevel.second.copy(alpha = 0.2f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                when {
+                                    reportCount > 10 -> Icons.Default.Warning
+                                    reportCount > 0 -> Icons.Default.ErrorOutline
+                                    else -> Icons.Default.CheckCircle
+                                },
+                                contentDescription = null,
+                                tint = riskLevel.second,
+                                modifier = Modifier.size(28.dp)
+                            )
+                        }
+                        Spacer(Modifier.width(14.dp))
+                        Column {
+                            Text(
+                                riskLevel.first,
+                                style = AppTypography.Title,
+                                color = riskLevel.second
+                            )
+                            Text(
+                                riskLevel.third,
+                                style = AppTypography.Caption,
+                                color = NavyBlue.N300
+                            )
+                        }
+                    }
+                }
+
+                /* 举报统计 */
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    StatCard("举报次数", "$reportCount", NavyBlue.N400, Modifier.weight(1f))
+                    StatCard("数据行数", "${rows.size}", NavyBlue.N300, Modifier.weight(1f))
+                    StatCard("查询状态", "完成", Accent.Green, Modifier.weight(1f))
+                }
+
+                /* 详细数据 */
+                if (rows.isNotEmpty()) {
+                    SectionHeader("详细信息")
+                    rows.forEachIndexed { index, row ->
+                        Card(
+                            shape = RoundedCornerShape(10.dp),
+                            colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
+                            border = BorderStroke(1.dp, NavyBlue.N700)
+                        ) {
+                            Column(modifier = Modifier.padding(14.dp)) {
+                                Text(
+                                    "记录 #${index + 1}",
+                                    style = AppTypography.Caption,
+                                    color = NavyBlue.N500
+                                )
+                                Spacer(Modifier.height(8.dp))
+                                row.forEachIndexed { colIndex, cell ->
+                                    if (cell.isNotBlank()) {
+                                        Row(
+                                            modifier = Modifier.padding(vertical = 3.dp)
+                                        ) {
+                                            Text(
+                                                "▸ ",
+                                                style = AppTypography.Caption,
+                                                color = NavyBlue.N500
+                                            )
+                                            Text(
+                                                cell,
+                                                style = AppTypography.Body,
+                                                color = NavyBlue.N100,
+                                                modifier = Modifier.weight(1f)
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (index < rows.lastIndex) {
+                            Spacer(Modifier.height(8.dp))
+                        }
+                    }
                 }
             }
         }
@@ -139,6 +238,41 @@ fun HomeScreen(viewModel: MainViewModel) {
                     }
                 }
             }
+        }
+    }
+}
+
+/* 统计卡片 — 用于Semak Mule结果概览 */
+@Composable
+private fun StatCard(
+    label: String,
+    value: String,
+    accentColor: Color,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        shape = RoundedCornerShape(10.dp),
+        colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
+        border = BorderStroke(1.dp, accentColor.copy(alpha = 0.25f)),
+        modifier = modifier
+    ) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                value,
+                style = AppTypography.Title.copy(fontWeight = FontWeight.Bold),
+                color = accentColor,
+                textAlign = TextAlign.Center
+            )
+            Spacer(Modifier.height(2.dp))
+            Text(
+                label,
+                style = AppTypography.Caption,
+                color = NavyBlue.N400,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }
