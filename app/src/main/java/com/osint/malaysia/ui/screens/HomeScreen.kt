@@ -103,12 +103,15 @@ fun HomeScreen(viewModel: MainViewModel) {
         /* Semak Mule结果 */
         semakMuleResult?.let { result ->
             item {
-                val reportCount = result.count ?: 0
                 val rows = result.tableData ?: emptyList()
+                val totalCount = result.count ?: 0
+
+                /* 风险判断: 基于table_data实际内容，而非顶层count字段 */
+                val hasData = rows.isNotEmpty() && rows.any { row -> row.size >= 2 && row[1].isNotBlank() }
                 val riskLevel = when {
-                    reportCount > 10 -> Triple("⚠ 高风险", Accent.Red, "该号码/账号涉及多起诈骗举报")
-                    reportCount > 0 -> Triple("⚡ 存在风险", Accent.Orange, "该号码/账号有诈骗相关记录")
-                    else -> Triple("✓ 未发现风险", Accent.Green, "数据库中未查询到诈骗记录")
+                    hasData && rows.size > 3 -> Triple("⚠ 存在记录", Accent.Orange, "该号码/账号在PDRM数据库中有多条记录，请注意核实")
+                    hasData -> Triple("⚡ 需核实", Accent.Orange, "该号码/账号在PDRM数据库中有记录，请查看详情")
+                    else -> Triple("✓ 未发现记录", Accent.Green, "PDRM Semak Mule 数据库中未查询到相关记录")
                 }
 
                 /* 风险状态横幅 */
@@ -132,8 +135,7 @@ fun HomeScreen(viewModel: MainViewModel) {
                         ) {
                             Icon(
                                 when {
-                                    reportCount > 10 -> Icons.Default.Warning
-                                    reportCount > 0 -> Icons.Default.ErrorOutline
+                                    hasData -> Icons.Default.Info
                                     else -> Icons.Default.CheckCircle
                                 },
                                 contentDescription = null,
@@ -157,19 +159,19 @@ fun HomeScreen(viewModel: MainViewModel) {
                     }
                 }
 
-                /* 举报统计 */
+                /* 统计概览 */
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    StatCard("举报次数", "$reportCount", NavyBlue.N400, Modifier.weight(1f))
-                    StatCard("数据行数", "${rows.size}", NavyBlue.N300, Modifier.weight(1f))
-                    StatCard("查询状态", "完成", Accent.Green, Modifier.weight(1f))
+                    StatCard("匹配记录", "${rows.size}", if (hasData) Accent.Orange else Accent.Green, Modifier.weight(1f))
+                    StatCard("数据字段", "$totalCount", NavyBlue.N300, Modifier.weight(1f))
+                    StatCard("数据来源", "PDRM", NavyBlue.N400, Modifier.weight(1f))
                 }
 
-                /* 详细数据 */
+                /* 详细数据 — 展示所有table_data行 */
                 if (rows.isNotEmpty()) {
-                    SectionHeader("详细信息")
+                    SectionHeader("PDRM 数据库记录")
                     rows.forEachIndexed { index, row ->
                         Card(
                             shape = RoundedCornerShape(10.dp),
@@ -206,6 +208,31 @@ fun HomeScreen(viewModel: MainViewModel) {
                         }
                         if (index < rows.lastIndex) {
                             Spacer(Modifier.height(8.dp))
+                        }
+                    }
+                } else {
+                    /* table_data为空 → 干净号码 */
+                    Card(
+                        shape = RoundedCornerShape(10.dp),
+                        colors = CardDefaults.cardColors(containerColor = NavyBlue.N900),
+                        border = BorderStroke(1.dp, Accent.Green.copy(alpha = 0.2f))
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(14.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.Shield,
+                                null,
+                                tint = Accent.Green,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            Text(
+                                "此号码/账号未在PDRM诈骗数据库中登记",
+                                style = AppTypography.Body,
+                                color = Accent.Green
+                            )
                         }
                     }
                 }

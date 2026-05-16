@@ -151,41 +151,28 @@ class OSINTRepository {
 
     /* ===== e-Court 电子法庭判决搜索 ===== */
     suspend fun searchECourt(name: String): Result<String> = withContext(Dispatchers.IO) {
-        val url = "https://efs.kehakiman.gov.my/EJudgmentWeb/Search"
+        val url = "https://ejudgment.kehakiman.gov.my/EJudgmentWeb/eJudgmentService.asmx/GetEJudgmentPortalSearchList"
         LogUtil.network(tag, "POST", url, mapOf("name" to name))
 
-        /* 构造JSON体 — 匹配C代码的精确格式 */
-        val jsonBody = buildString {
-            append("{")
-            append("\"Param\":{")
-            append("\"Search\":\"${name.replace("\"", "\\\"")}\",")
-            append("\"JurisdictionType\":\"ALL\",")
-            append("\"CourtCategory\":\"\",")
-            append("\"Court\":\"\",")
-            append("\"JudgeName\":\"\",")
-            append("\"CaseType\":\"\",")
-            append("\"DateOfAPFrom\":\"\",")
-            append("\"DateOfAPTo\":\"\",")
-            append("\"DateOfResultFrom\":\"\",")
-            append("\"DateOfResultTo\":\"\",")
-            append("\"CurrPage\":1,")
-            append("\"Ordering\":\"DATE_OF_AP_DESC\"")
-            append("}}")
-        }
+        /* 构造JSON体 — null值用于空日期字段 */
+        val jsonBody = """{"Param":{"CourtCategory":"","Court":"","JurisdictionType":"ALL","DateOfAPFrom":null,"DateOfAPTo":null,"DateOfResultFrom":null,"DateOfResultTo":null,"Search":"$name","JudgeName":"","CaseType":"","CurrPage":1,"Ordering":"DATE_OF_AP_DESC"}}"""
 
-        /* 不使用Content-Type — 完全匹配C代码行为(libcurl默认) */
-        val mediaType = "application/json".toMediaType()
+        val mediaType = "application/json; charset=UTF-8".toMediaType()
         val requestBody = jsonBody.toRequestBody(mediaType)
 
-        /* 最多重试3次，间隔3秒 — 匹配C代码逻辑 */
+        /* 最多重试3次，间隔3秒 */
         var lastError: Exception? = null
         repeat(3) { attempt ->
             try {
                 val request = Request.Builder()
                     .url(url)
                     .post(requestBody)
-                    .header("Accept", "application/json, text/plain, */*")
-                    .header("Referer", "https://efs.kehakiman.gov.my/EJudgmentWeb/")
+                    .header("Accept", "application/json, text/javascript, */*; q=0.01")
+                    .header("Accept-Language", "zh-CN,zh;q=0.9")
+                    .header("Origin", "https://ejudgment.kehakiman.gov.my")
+                    .header("Referer", "https://ejudgment.kehakiman.gov.my/ejudgmentweb/searchpage.aspx?JurisdictionType=ALL")
+                    .header("X-Requested-With", "XMLHttpRequest")
+                    .header("User-Agent", "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36")
                     .build()
 
                 val response = httpClient.newCall(request).execute()
