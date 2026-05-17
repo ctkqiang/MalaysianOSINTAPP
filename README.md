@@ -2,6 +2,14 @@
 
 马来西亚开源情报（OSINT）移动端应用，基于 Kotlin Jetpack Compose 构建，采用 MVVM 架构，集成多源马来西亚政府公开数据查询能力。
 
+<table>
+  <tr>
+    <td align="center"><img src="./figure/696223054_17968269405107711_8320153956031566730_n.webp" alt="demo1" width="280"/></td>
+    <td align="center"><img src="./figure/696255414_17968269432107711_4330137502455713824_n.webp" alt="demo2" width="280"/></td>
+    <td align="center"><img src="./figure/699956798_17968269414107711_1452594645416594022_n.webp" alt="demo3" width="280"/></td>
+  </tr>
+</table>
+
 ## 技术架构
 
 | 层级       | 技术栈                            |
