@@ -29,6 +29,7 @@
 
 - 查询马来西亚皇家警察(PDRM)反诈骗数据库
 - 支持电话号码、银行账号检索
+- 查询时显示脉冲扫描动画反馈
 - API 端点: `semakmule.rmp.gov.my`
 
 ### 2. 身份证综合查询
@@ -55,6 +56,7 @@
 - 搜索马来西亚联邦法院电子判决系统(e-Court)
 - 支持姓名、案件关键词检索
 - 自动重试机制(最多 3 次，间隔 3 秒)
+- PDF 文档通过系统浏览器打开
 
 ### 6. 国行消费者警示
 
@@ -96,7 +98,7 @@ app/src/main/java/com/osint/malaysia/
 │   ├── MyKadParser.kt            # 身份证本地解析器
 │   ├── SSMParser.kt              # SSM注册号解析器
 │   └── SocialPlatforms.kt        # 社交媒体平台定义
-└── ui/
+├── ui/
     ├── theme/
     │   └── Theme.kt              # 警蓝主题系统(色彩/排版/主题)
     ├── components/
@@ -110,6 +112,10 @@ app/src/main/java/com/osint/malaysia/
     │   └── SettingsScreen.kt     # 设置页面
     └── navigation/
         └── Navigation.kt         # 底部导航+路由图
+├── .github/workflows/
+│   └── release.yml               # GitHub Actions 自动发布
+└── .gitcode/workflows/
+    └── release.yml               # Gitcode CI 自动发布(中文)
 ```
 
 ## 构建与运行
@@ -136,6 +142,19 @@ app/src/main/java/com/osint/malaysia/
 # 类型检查
 ./gradlew compileDebugKotlin
 ```
+
+### CI/CD 自动发布
+
+推送版本标签即自动构建 APK 并发布到 Release：
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0    # 触发 Gitcode CI
+git push github v1.0.0    # 触发 GitHub Actions
+```
+
+- **GitHub Actions**: `.github/workflows/release.yml` — `MALAYSIAOSINT.apk`
+- **Gitcode CI**: `.gitcode/workflows/release.yml` — `MALAYSIAOSINT.apk`（中文界面）
 
 ### 运行项目
 
@@ -175,7 +194,7 @@ app/src/main/java/com/osint/malaysia/
 2. **最小依赖**: 仅引入必要的开源库，避免依赖膨胀
 3. **安全合规**: 仅查询公开可访问的数据接口，遵循马来西亚法律法规
 4. **资源优化**: SSL 证书校验经配置允许兼容旧版政府网站证书
-5. **日志透明**: 全中文日志系统，记录所有网络请求与响应
+5. **原生体验**: PDF/外部链接通过系统浏览器打开，无内嵌 WebView
 
 ## 免责声明
 
@@ -190,9 +209,10 @@ app/src/main/java/com/osint/malaysia/
 
 | 项目     | 信息                                                        |
 | -------- | ----------------------------------------------------------- |
-| 作者     | 钟智强                                                      |
+| 作者     | 哪吒网络安全的钟智强                                        |
 | 邮箱     | ctkqiang@dingtalk.com                                       |
-| 仓库     | https://gitcode.com/ctkqiang_sr/MalaysianOSINTAPP.git       |
+| 仓库     | https://github.com/ctkqiang/MalaysianOSINTAPP               |
+| 镜像     | https://gitcode.com/ctkqiang_sr/MalaysianOSINTAPP           |
 | 参考项目 | https://github.com/ctkqiang/MalaysianOSINT (C 语言原始实现) |
 | 版本     | 1.0.0                                                       |
 

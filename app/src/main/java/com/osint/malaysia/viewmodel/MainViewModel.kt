@@ -8,6 +8,7 @@ import com.osint.malaysia.data.repository.OSINTRepository
 import com.osint.malaysia.model.*
 import com.osint.malaysia.util.LogUtil
 import com.osint.malaysia.util.SSMParser
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -78,6 +79,7 @@ class MainViewModel : ViewModel() {
                 }
                 .onFailure { _errorMessage.value = "查询失败: ${it.message}" }
 
+            delay(800) // 最小动画显示时间
             _isLoading.value = false
         }
     }

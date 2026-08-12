@@ -1,5 +1,7 @@
 package com.osint.malaysia.ui.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,13 +13,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.osint.malaysia.model.ECourtItem
 import com.osint.malaysia.ui.components.*
-import com.osint.malaysia.ui.navigation.Routes
 import com.osint.malaysia.ui.theme.*
 import com.osint.malaysia.util.LocalStrings
 import com.osint.malaysia.viewmodel.MainViewModel
@@ -46,10 +48,11 @@ fun CourtScreen(vm: MainViewModel, nav: NavHostController? = null) {
 }
 
 @Composable private fun CaseCard(idx: Int, item: ECourtItem, s: com.osint.malaysia.util.UiStrings, nav: NavHostController?) {
+    val context = LocalContext.current
     val docId = item.listOfAPDoc?.firstOrNull()?.documentId?.ifBlank { null } ?: item.eJudgUniqueID.ifBlank { null }
     val url = docId?.let { "https://efs.kehakiman.gov.my/EFSWeb/DocDownloader.aspx?DocumentID=$it&Inline=true" }
 
-    Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), elevation = CardDefaults.cardElevation(defaultElevation = 1.dp), modifier = Modifier.fillMaxWidth().then(if (url != null && nav != null) Modifier.clickable { nav.navigate(Routes.webview(url)) } else Modifier)) {
+    Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), elevation = CardDefaults.cardElevation(defaultElevation = 1.dp), modifier = Modifier.fillMaxWidth().then(if (url != null) Modifier.clickable { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) } else Modifier)) {
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) { Icon(Icons.Default.Balance, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text("#$idx", style = AppTypography.Caption.copy(fontWeight = FontWeight.Bold), color = MaterialTheme.colorScheme.primary); Spacer(Modifier.width(8.dp)); Text(item.cleanKeyWord.ifBlank { item.cleanCaseNo.ifBlank { "Case #$idx" } }, style = AppTypography.Subtitle.copy(fontWeight = FontWeight.SemiBold), color = MaterialTheme.colorScheme.onSurface, maxLines = 2, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f)); if (url != null) { Icon(Icons.Default.PictureAsPdf, null, tint = Colors.Red, modifier = Modifier.size(20.dp)) } }
             Spacer(Modifier.height(10.dp)); HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant); Spacer(Modifier.height(10.dp))

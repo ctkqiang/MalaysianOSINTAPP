@@ -1,5 +1,6 @@
 package com.osint.malaysia.ui.screens
 
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import com.osint.malaysia.ui.components.*
@@ -28,13 +30,20 @@ fun HomeScreen(vm: MainViewModel) {
     val s = LocalStrings.current
     LaunchedEffect(Unit) { if (bnm == null) vm.loadBNMAlert() }
 
+    // Animations for loading state
+    val anim = rememberInfiniteTransition(label = "loading")
+    val pulse by anim.animateFloat(0.3f, 1f, infiniteRepeatable(tween(800, easing = FastOutSlowInEasing), RepeatMode.Reverse), label = "pulse")
+    val shimmerX by anim.animateFloat(-1f, 2f, infiniteRepeatable(tween(1500, easing = LinearEasing), RepeatMode.Restart), label = "shimmer")
+
     LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
 
         item {
-            Card(shape = RoundedCornerShape(16.dp), elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
+            Card(shape = RoundedCornerShape(16.dp), elevation = CardDefaults.cardElevation(defaultElevation = if (loading) 4.dp else 2.dp)) {
                 Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Brush.horizontalGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary))).padding(20.dp)) {
                     Column {
-                        Row(verticalAlignment = Alignment.CenterVertically) { Icon(Icons.Default.Shield, null, tint = androidx.compose.ui.graphics.Color.White, modifier = Modifier.size(26.dp)); Spacer(Modifier.width(10.dp)); Text(s.homeTitle, style = AppTypography.Display.copy(color = androidx.compose.ui.graphics.Color.White)) }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.Shield, null, tint = androidx.compose.ui.graphics.Color.White.copy(alpha = if (loading) pulse else 1f), modifier = Modifier.size(26.dp)); Spacer(Modifier.width(10.dp)); Text(s.homeTitle, style = AppTypography.Display.copy(color = androidx.compose.ui.graphics.Color.White))
+                        }
                         Spacer(Modifier.height(4.dp)); Text(s.homeSubtitle, style = AppTypography.Body.copy(color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.85f)))
                         Spacer(Modifier.height(14.dp))
                         Surface(shape = RoundedCornerShape(10.dp), color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.18f)) {
@@ -46,7 +55,17 @@ fun HomeScreen(vm: MainViewModel) {
                         }
                         Spacer(Modifier.height(12.dp))
                         Button({ if (q.isNotBlank()) vm.querySemakMule(q) }, enabled = !loading, shape = RoundedCornerShape(10.dp), colors = ButtonDefaults.buttonColors(containerColor = androidx.compose.ui.graphics.Color.White, contentColor = MaterialTheme.colorScheme.primary), modifier = Modifier.fillMaxWidth().height(46.dp)) {
-                            if (loading) CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.primary) else { Text(s.btnSearch, style = AppTypography.Subtitle) }
+                            if (loading) Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.primary)
+                                Text(s.btnSearch, style = AppTypography.Subtitle.copy(color = MaterialTheme.colorScheme.primary.copy(alpha = pulse)))
+                            } else { Text(s.btnSearch, style = AppTypography.Subtitle) }
+                        }
+                        // Animated scan line when loading
+                        if (loading) {
+                            Spacer(Modifier.height(10.dp))
+                            Box(Modifier.fillMaxWidth().height(2.dp).clip(RoundedCornerShape(1.dp)).background(androidx.compose.ui.graphics.Color.White.copy(alpha = 0.15f))) {
+                                Box(Modifier.fillMaxHeight().fillMaxWidth(0.35f).offset(x = (shimmerX * 100).dp).background(Brush.horizontalGradient(listOf(androidx.compose.ui.graphics.Color.Transparent, androidx.compose.ui.graphics.Color.White.copy(alpha = 0.7f), androidx.compose.ui.graphics.Color.Transparent))))
+                            }
                         }
                     }
                 }

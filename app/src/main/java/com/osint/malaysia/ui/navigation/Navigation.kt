@@ -16,12 +16,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.osint.malaysia.ui.screens.*
 import com.osint.malaysia.ui.theme.Colors
 import com.osint.malaysia.util.LocalStrings
@@ -31,8 +29,6 @@ import com.osint.malaysia.viewmodel.SettingsViewModel
 object Routes {
     const val HOME = "home"; const val ID = "id"; const val COMPANY = "company"
     const val SOCIAL = "social"; const val COURT = "court"; const val SETTINGS = "settings"
-    const val WEBVIEW = "webview/{url}"
-    fun webview(url: String) = "webview/${java.net.URLEncoder.encode(url, "UTF-8")}"
 }
 
 private data class Nav(val route: String, val icon: ImageVector) {
@@ -102,10 +98,6 @@ fun MainNavigation(vm: MainViewModel, svm: SettingsViewModel) {
                 composable(Routes.SOCIAL) { SocialScreen(vm) }
                 composable(Routes.COURT) { CourtScreen(vm, nav) }
                 composable(Routes.SETTINGS) { SettingsScreen(svm) }
-                composable(Routes.WEBVIEW, arguments = listOf(navArgument("url") { type = NavType.StringType })) { back ->
-                    val url = java.net.URLDecoder.decode(back.arguments?.getString("url") ?: "", "UTF-8")
-                    WebViewScreen(url = url, onBack = { nav.popBackStack() })
-                }
             }
         }
     }

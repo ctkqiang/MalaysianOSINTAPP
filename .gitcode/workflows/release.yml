@@ -37,6 +37,9 @@ jobs:
       - name: 构建 Release APK
         run: ./gradlew assembleRelease
 
+      - name: 重命名 APK
+        run: mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/MALAYSIAOSINT.apk
+
       - name: 确定版本号
         id: version
         run: |
@@ -77,7 +80,7 @@ jobs:
 
             ---
             ### 下载
-            点击下方 **app-release.apk** 下载最新版本安装包。
+            点击下方 **MALAYSIAOSINT.apk** 下载最新版本安装包。
 
             > **作者：哪吒网络安全的钟智强**
             > **仓库：gitcode.com/ctkqiang_sr/MalaysianOSINTAPP**
@@ -86,7 +89,7 @@ jobs:
             ### 免责声明
             本应用仅供安全研究与合法授权测试使用。使用者应遵守马来西亚相关法律法规，对自身行为负责。
 
-          files: app/build/outputs/apk/release/app-release.apk
+          files: app/build/outputs/apk/release/MALAYSIAOSINT.apk
           draft: false
           prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') || contains(github.ref, 'rc') }}
 
@@ -94,4 +97,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: MalaysianOSINT-v${{ steps.version.outputs.VERSION }}
-          path: app/build/outputs/apk/release/app-release.apk
+          path: app/build/outputs/apk/release/MALAYSIAOSINT.apk
