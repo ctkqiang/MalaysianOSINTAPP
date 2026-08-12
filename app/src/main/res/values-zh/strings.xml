@@ -90,7 +90,7 @@
     <string name="about_version">版本 1.0.0</string>
     <string name="about_author">作者：钟智强</string>
     <string name="about_email">ctkqiang@dingtalk.com</string>
-    <string name="about_repo">gitcode.com/ctkqiang_sr/MalaysianOSINTAPP</string>
+    <string name="about_repo">github.com/ctkqiang/MalaysianOSINTAPP</string>
     <string name="about_tried_best_title">💪 我已经尽力了！</string>
     <string name="about_tried_best_desc">这个应用是我一个人用热情和心血打造的。虽然我已经尽了最大的努力保证准确性和可靠性，但难免还会有Bug、边界情况或需要改进的地方。欢迎随时提供反馈和贡献代码 — 让我们一起为全马来西亚人打造好用的OSINT工具！</string>
     <string name="about_disclaimer">本应用仅供安全研究与合法授权测试使用。使用者应遵守马来西亚相关法律法规，对自身行为负责。</string>

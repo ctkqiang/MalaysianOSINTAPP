@@ -90,7 +90,7 @@
     <string name="about_version">Version 1.0.0</string>
     <string name="about_author">Author: Chung Zhicheng (钟智强)</string>
     <string name="about_email">ctkqiang@dingtalk.com</string>
-    <string name="about_repo">gitcode.com/ctkqiang_sr/MalaysianOSINTAPP</string>
+    <string name="about_repo">github.com/ctkqiang/MalaysianOSINTAPP</string>
     <string name="about_tried_best_title">💪 I\'ve Tried My Best!</string>
     <string name="about_tried_best_desc">This app was built with passion and dedication by a single developer. While every effort has been made to ensure accuracy and reliability, there may still be bugs, edge cases, or areas for improvement. Your feedback and contributions are always welcome — let\'s make OSINT accessible for all Malaysians together!</string>
     <string name="about_disclaimer">This application is intended for security research and authorized testing purposes only. Users shall comply with Malaysian laws and regulations and bear full responsibility for their own actions.</string>

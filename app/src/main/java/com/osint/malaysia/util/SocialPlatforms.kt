@@ -34,7 +34,7 @@ object SocialPlatforms {
         /* 开发者平台 */
         SocialPlatform("GitLab", "https://gitlab.com/%s", "开发者"),
         SocialPlatform("GitHub", "https://github.com/%s", "开发者"),
-        SocialPlatform("Gitcode", "https://gitcode.com/%s", "开发者"),
+        SocialPlatform("GitHub", "https://github.com/%s", "开发者"),
         SocialPlatform("Stack Overflow", "https://stackoverflow.com/users/%s", "开发者"),
         SocialPlatform("HackerNews", "https://news.ycombinator.com/user?id=%s", "开发者"),
         SocialPlatform("Dev.to", "https://dev.to/%s", "开发者"),
