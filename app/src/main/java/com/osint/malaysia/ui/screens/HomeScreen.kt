@@ -1,5 +1,3 @@
-/* 马来西亚OSINT — 首页（反诈骗 + BNM警示） */
-
 package com.osint.malaysia.ui.screens
 
 import androidx.compose.foundation.BorderStroke
@@ -7,300 +5,75 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
-import com.osint.malaysia.model.SemakMuleResponse
 import com.osint.malaysia.ui.components.*
-import com.osint.malaysia.ui.theme.Accent
-import com.osint.malaysia.ui.theme.AppTypography
-import com.osint.malaysia.ui.theme.NavyBlue
+import com.osint.malaysia.ui.theme.*
+import com.osint.malaysia.util.LocalStrings
 import com.osint.malaysia.viewmodel.MainViewModel
 
 @Composable
-fun HomeScreen(viewModel: MainViewModel) {
-    var searchQuery by remember { mutableStateOf("") }
-    val isLoading by viewModel.isLoading.collectAsState()
-    val semakMuleResult by viewModel.semakMuleResult.collectAsState()
-    val bnmResult by viewModel.bnmResult.collectAsState()
-    val errorMessage by viewModel.errorMessage.collectAsState()
+fun HomeScreen(vm: MainViewModel) {
+    var q by remember { mutableStateOf("") }
+    val loading by vm.isLoading.collectAsState(); val res by vm.semakMuleResult.collectAsState()
+    val bnm by vm.bnmResult.collectAsState(); val err by vm.errorMessage.collectAsState()
+    val s = LocalStrings.current
+    LaunchedEffect(Unit) { if (bnm == null) vm.loadBNMAlert() }
 
-    /* 首次加载时获取BNM警示 */
-    LaunchedEffect(Unit) {
-        if (bnmResult == null) {
-            viewModel.loadBNMAlert()
-        }
-    }
-
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        /* 搜索区 */
-        item {
-            Text(
-                "反诈骗查询",
-                style = AppTypography.Title,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                "PDRM Semak Mule — 查询电话号码或银行账号是否涉及诈骗",
-                style = AppTypography.Caption,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
+    LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
 
         item {
-            SearchBar(
-                query = searchQuery,
-                onQueryChange = { searchQuery = it },
-                onSearch = { viewModel.querySemakMule(searchQuery) },
-                placeholder = "输入电话号码或银行账号",
-                enabled = !isLoading
-            )
-        }
-
-        item {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                ActionButton("查询", onClick = {
-                    if (searchQuery.isNotBlank()) viewModel.querySemakMule(searchQuery)
-                }, isLoading = isLoading, modifier = Modifier.weight(1f))
-
-                OutlinedButton(
-                    onClick = { viewModel.loadBNMAlert() },
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.primary),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
-                ) {
-                    Icon(Icons.Default.Refresh, null, Modifier.size(16.dp))
-                    Spacer(Modifier.width(4.dp))
-                    Text("刷新警示", style = AppTypography.Caption)
-                }
-            }
-        }
-
-        /* 错误提示 */
-        errorMessage?.let { msg ->
-            item { ErrorBanner(msg) { viewModel.clearError() } }
-        }
-
-        /* 加载状态 */
-        if (isLoading) {
-            item { LoadingOverlay(true) }
-        }
-
-        /* Semak Mule结果 */
-        semakMuleResult?.let { result ->
-            item {
-                val rows = result.tableData ?: emptyList()
-                val totalCount = result.count ?: 0
-
-                /* 风险判断: 基于table_data实际内容，而非顶层count字段 */
-                val hasData = rows.isNotEmpty() && rows.any { row -> row.size >= 2 && row[1].isNotBlank() }
-                val riskLevel = when {
-                    hasData && rows.size > 3 -> Triple("⚠ 存在记录", Accent.Orange, "该号码/账号在PDRM数据库中有多条记录，请注意核实")
-                    hasData -> Triple("⚡ 需核实", Accent.Orange, "该号码/账号在PDRM数据库中有记录，请查看详情")
-                    else -> Triple("✓ 未发现记录", Accent.Green, "PDRM Semak Mule 数据库中未查询到相关记录")
-                }
-
-                /* 风险状态横幅 */
-                Card(
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = riskLevel.second.copy(alpha = 0.12f)
-                    ),
-                    border = BorderStroke(1.dp, riskLevel.second.copy(alpha = 0.3f))
-                ) {
-                    Row(
-                        modifier = Modifier.padding(16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(48.dp)
-                                .clip(CircleShape)
-                                .background(riskLevel.second.copy(alpha = 0.2f)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                when {
-                                    hasData -> Icons.Default.Info
-                                    else -> Icons.Default.CheckCircle
-                                },
-                                contentDescription = null,
-                                tint = riskLevel.second,
-                                modifier = Modifier.size(28.dp)
-                            )
-                        }
-                        Spacer(Modifier.width(14.dp))
-                        Column {
-                            Text(
-                                riskLevel.first,
-                                style = AppTypography.Title,
-                                color = riskLevel.second
-                            )
-                            Text(
-                                riskLevel.third,
-                                style = AppTypography.Caption,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
-
-                /* 统计概览 */
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    StatCard("匹配记录", "${rows.size}", if (hasData) Accent.Orange else Accent.Green, Modifier.weight(1f))
-                    StatCard("数据字段", "$totalCount", MaterialTheme.colorScheme.onSurfaceVariant, Modifier.weight(1f))
-                    StatCard("数据来源", "PDRM", MaterialTheme.colorScheme.primary, Modifier.weight(1f))
-                }
-
-                /* 详细数据 — 展示所有table_data行 */
-                if (rows.isNotEmpty()) {
-                    SectionHeader("PDRM 数据库记录")
-                    rows.forEachIndexed { index, row ->
-                        Card(
-                            shape = RoundedCornerShape(10.dp),
-                            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
-                        ) {
-                            Column(modifier = Modifier.padding(14.dp)) {
-                                Text(
-                                    "记录 #${index + 1}",
-                                    style = AppTypography.Caption,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Spacer(Modifier.height(8.dp))
-                                row.forEachIndexed { colIndex, cell ->
-                                    if (cell.isNotBlank()) {
-                                        Row(
-                                            modifier = Modifier.padding(vertical = 3.dp)
-                                        ) {
-                                            Text(
-                                                "▸ ",
-                                                style = AppTypography.Caption,
-                                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                                            )
-                                            Text(
-                                                cell,
-                                                style = AppTypography.Body,
-                                                color = MaterialTheme.colorScheme.onSurface,
-                                                modifier = Modifier.weight(1f)
-                                            )
-                                        }
-                                    }
-                                }
+            Card(shape = RoundedCornerShape(16.dp), elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)) {
+                Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Brush.horizontalGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary))).padding(20.dp)) {
+                    Column {
+                        Row(verticalAlignment = Alignment.CenterVertically) { Icon(Icons.Default.Shield, null, tint = androidx.compose.ui.graphics.Color.White, modifier = Modifier.size(26.dp)); Spacer(Modifier.width(10.dp)); Text(s.homeTitle, style = AppTypography.Display.copy(color = androidx.compose.ui.graphics.Color.White)) }
+                        Spacer(Modifier.height(4.dp)); Text(s.homeSubtitle, style = AppTypography.Body.copy(color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.85f)))
+                        Spacer(Modifier.height(14.dp))
+                        Surface(shape = RoundedCornerShape(10.dp), color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.18f)) {
+                            Row(Modifier.padding(horizontal = 12.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Default.Search, null, tint = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.7f), modifier = Modifier.size(18.dp)); Spacer(Modifier.width(8.dp))
+                                androidx.compose.foundation.text.BasicTextField(value = q, onValueChange = { q = it }, textStyle = AppTypography.Body.copy(color = androidx.compose.ui.graphics.Color.White), modifier = Modifier.weight(1f), decorationBox = { if (q.isEmpty()) Text(s.homeHint, style = AppTypography.Body.copy(color = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.5f))); it() }, singleLine = true)
+                                if (q.isNotEmpty()) IconButton({ q = "" }, Modifier.size(16.dp)) { Icon(Icons.Default.Close, null, tint = androidx.compose.ui.graphics.Color.White.copy(alpha = 0.5f)) }
                             }
                         }
-                        if (index < rows.lastIndex) {
-                            Spacer(Modifier.height(8.dp))
-                        }
-                    }
-                } else {
-                    /* table_data为空 → 干净号码 */
-                    Card(
-                        shape = RoundedCornerShape(10.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                        border = BorderStroke(1.dp, Accent.Green.copy(alpha = 0.2f))
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(14.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                Icons.Default.Shield,
-                                null,
-                                tint = Accent.Green,
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Text(
-                                "此号码/账号未在PDRM诈骗数据库中登记",
-                                style = AppTypography.Body,
-                                color = Accent.Green
-                            )
+                        Spacer(Modifier.height(12.dp))
+                        Button({ if (q.isNotBlank()) vm.querySemakMule(q) }, enabled = !loading, shape = RoundedCornerShape(10.dp), colors = ButtonDefaults.buttonColors(containerColor = androidx.compose.ui.graphics.Color.White, contentColor = MaterialTheme.colorScheme.primary), modifier = Modifier.fillMaxWidth().height(46.dp)) {
+                            if (loading) CircularProgressIndicator(Modifier.size(18.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.primary) else { Text(s.btnSearch, style = AppTypography.Subtitle) }
                         }
                     }
                 }
             }
         }
 
-        /* BNM消费者警示 */
-        bnmResult?.let { result ->
-            item {
-                SectionHeader("国行消费者警示名单 (${result.count}条)")
-            }
-
-            if (result.entries.isEmpty()) {
-                item { EmptyState("暂无警示记录") }
-            } else {
-                items(result.entries.take(50)) { alert ->
-                    Card(
-                        shape = RoundedCornerShape(8.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, Accent.Orange.copy(alpha = 0.3f)),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column(modifier = Modifier.padding(12.dp)) {
-                            Text(alert.name, style = AppTypography.Subtitle, color = MaterialTheme.colorScheme.onBackground)
-                            Text(alert.website, style = AppTypography.Caption, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            if (alert.date.isNotEmpty()) {
-                                Text(alert.date, style = AppTypography.Caption, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                            }
-                        }
-                    }
-                }
-            }
+        if (res != null || bnm != null) {
+            item { Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                val rows = res?.tableData ?: emptyList(); val has = rows.isNotEmpty() && rows.any { it.size >= 2 && it[1].isNotBlank() }
+                StatCard(s.statMatch, "${rows.size}", if (has) Colors.Orange else Colors.Green, Modifier.weight(1f))
+                StatCard(s.statSource, s.riskPdrm, Colors.Secondary, Modifier.weight(1f))
+                StatCard("BNM", "${bnm?.count ?: 0}", Colors.Secondary, Modifier.weight(1f))
+            } }
         }
-    }
-}
+        err?.let { item { ErrorBanner(it) { vm.clearError() } } }
+        if (loading) item { LoadingOverlay(true) }
 
-/* 统计卡片 — 用于Semak Mule结果概览 */
-@Composable
-private fun StatCard(
-    label: String,
-    value: String,
-    accentColor: Color,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        shape = RoundedCornerShape(10.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        border = BorderStroke(1.dp, accentColor.copy(alpha = 0.25f)),
-        modifier = modifier
-    ) {
-        Column(
-            modifier = Modifier.padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                value,
-                style = AppTypography.Title.copy(fontWeight = FontWeight.Bold),
-                color = accentColor,
-                textAlign = TextAlign.Center
-            )
-            Spacer(Modifier.height(2.dp))
-            Text(
-                label,
-                style = AppTypography.Caption,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
-            )
+        res?.let { r ->
+            val rows = r.tableData ?: emptyList()
+            val has = rows.isNotEmpty() && rows.any { it.size >= 2 && it[1].isNotBlank() }
+            val (icon, title, desc, color) = when { has && rows.size > 3 -> listOf<Any>(Icons.Default.GppBad, s.riskHigh, s.riskHighD, Colors.Orange); has -> listOf<Any>(Icons.Default.ErrorOutline, s.riskMed, s.riskMedD, Colors.Orange); else -> listOf<Any>(Icons.Default.CheckCircleOutline, s.riskClean, s.riskCleanD, Colors.Green) }
+            item { FadeIn { RiskBanner(icon = icon as androidx.compose.ui.graphics.vector.ImageVector, title = title as String, desc = desc as String, color = color as androidx.compose.ui.graphics.Color) } }
+
+            if (rows.isNotEmpty()) { item { FadeIn(delay = 80) { SectionHeader(s.lbRecord) } }; rows.forEachIndexed { idx, row -> item { FadeIn(delay = idx * 30) { InfoCard { Text("Record #${idx + 1}", style = AppTypography.Caption, color = MaterialTheme.colorScheme.primary); Spacer(Modifier.height(8.dp)); row.forEach { cell -> if (cell.isNotBlank()) Row(Modifier.padding(vertical = 1.dp)) { Icon(Icons.Default.Circle, null, tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f), modifier = Modifier.size(5.dp)); Spacer(Modifier.width(6.dp)); Text(cell, style = AppTypography.Body, color = MaterialTheme.colorScheme.onSurface) } } } } } } }
+            else item { FadeIn(delay = 80) { InfoCard(border = BorderStroke(1.dp, Colors.Green.copy(alpha = 0.15f))) { Row(verticalAlignment = Alignment.CenterVertically) { Icon(Icons.Default.Shield, null, tint = Colors.Green, modifier = Modifier.size(20.dp)); Spacer(Modifier.width(10.dp)); Text(s.riskNoData, style = AppTypography.Body, color = Colors.Green) } } } }
         }
+
+        bnm?.let { r -> item { SectionHeader(s.homeBnmTitle) }; if (r.entries.isEmpty()) item { EmptyState(s.homeBnmEmpty) } else items(r.entries.take(30)) { a -> InfoCard(border = BorderStroke(0.5.dp, Colors.Orange.copy(alpha = 0.2f))) { Text(a.name, style = AppTypography.Subtitle, color = MaterialTheme.colorScheme.onBackground); if (a.website.isNotBlank()) Text(a.website, style = AppTypography.Caption, color = MaterialTheme.colorScheme.onSurfaceVariant); if (a.date.isNotEmpty()) Text(a.date, style = AppTypography.Caption, color = MaterialTheme.colorScheme.onSurfaceVariant) } } }
     }
 }

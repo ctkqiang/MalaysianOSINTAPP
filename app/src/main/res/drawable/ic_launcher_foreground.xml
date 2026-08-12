@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 马来西亚OSINT — 启动图标前景 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- M字母 代表Malaysia -->
+
+    <!-- Rounded square base -->
     <path
-        android:fillColor="#FFC5D6F5"
-        android:pathData="M30,72V36l12,18l12,-18v36h-4V46l-8,12l-8,-12v26z"/>
-    <!-- 放大镜 代表OSINT -->
+        android:fillColor="#E85D75"
+        android:pathData="M18,18 L90,18 Q98,18 98,26 L98,82 Q98,90 90,90 L18,90 Q10,90 10,82 L10,26 Q10,18 18,18 Z"/>
+
+    <!-- Shield outline -->
     <path
-        android:fillColor="#FF3D74C9"
-        android:pathData="M68,44a10,10 0,1 0,0 20a10,10 0,1 0,0 -20zM68,48a6,6 0,1 1,0 12a6,6 0,1 1,0 -12z"
-        android:strokeWidth="0"/>
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.95"
+        android:pathData="M54,30 L38,38 L38,55 C38,68 45,78 54,83 C63,78 70,68 70,55 L70,38 Z"/>
+
+    <!-- Shield inner cut -->
     <path
-        android:fillColor="#FFC5D6F5"
-        android:pathData="M75,63l2,-2l8,8l-2,2z"
-        android:strokeWidth="0"/>
+        android:fillColor="#E85D75"
+        android:pathData="M54,36 L43,42 L43,55 C43,63 48,70 54,74 C60,70 65,63 65,55 L65,42 Z"/>
+
+    <!-- Search dot -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,50 m-6,0 a6,6 0,1 1,12 0 a6,6 0,1 1,-12 0"/>
+
 </vector>

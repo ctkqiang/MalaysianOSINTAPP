@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MalaysianOSINT — 中文字符串资源 -->
+<resources>
+    <string name="app_name">马来西亚OSINT</string>
+    <string name="app_tagline">马来西亚开源情报工具</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">首页</string>
+    <string name="nav_id_check">身份证</string>
+    <string name="nav_company">企业</string>
+    <string name="nav_social">社交</string>
+    <string name="nav_court">法庭</string>
+    <string name="nav_settings">设置</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">反诈骗查询</string>
+    <string name="home_subtitle">PDRM Semak Mule — 查询电话号码或银行账号是否涉嫌诈骗</string>
+    <string name="home_refresh_alert">刷新警示</string>
+    <string name="home_bnm_title">国行消费者警示名单</string>
+    <string name="home_bnm_empty">暂无警示记录</string>
+
+    <!-- ID Check Screen -->
+    <string name="id_title">身份证综合查询</string>
+    <string name="id_subtitle">SSPI移民局 + MyKad解析 + 通缉名单 + 反贪会记录</string>
+    <string name="id_hint">输入12位身份证号码 (如 990101075678)</string>
+    <string name="id_btn_search">综合查询</string>
+    <string name="id_mykad_title">MyKad 身份证解析</string>
+    <string name="id_mykad_fail">无法解析身份证号码，请检查输入</string>
+    <string name="id_sspi_title">SSPI 移民局状态</string>
+    <string name="id_wanted_title">⚠ 通缉名单匹配</string>
+    <string name="id_sprm_title">反贪会腐败记录</string>
+
+    <!-- Company Screen -->
+    <string name="company_tab_ssm">SSM注册号</string>
+    <string name="company_tab_yellow">企业黄页</string>
+    <string name="company_ssm_title">SSM 企业注册号解析</string>
+    <string name="company_ssm_subtitle">解析马来西亚公司委员会(SSM)注册号，识别实体类型</string>
+    <string name="company_ssm_hint">输入SSM注册号 (如 123456-01-7890)</string>
+    <string name="company_ssm_parse">解析</string>
+    <string name="company_ssm_result">解析结果</string>
+    <string name="company_yellow_title">企业黄页搜索</string>
+    <string name="company_yellow_subtitle">搜索马来西亚黄页(MalaysiaYP)企业信息，同时联动反诈骗数据库</string>
+    <string name="company_yellow_hint">输入企业名称关键词</string>
+    <string name="company_yellow_search">企业查询</string>
+    <string name="company_info_title">企业信息</string>
+    <string name="company_not_found">未找到匹配企业</string>
+
+    <!-- Social Screen -->
+    <string name="social_title">社交媒体足迹搜索</string>
+    <string name="social_subtitle">跨平台用户名枚举 — 遍历60+主流社交平台</string>
+    <string name="social_hint">输入要搜索的用户名</string>
+    <string name="social_btn">开始搜索</string>
+    <string name="social_searching">正在搜索… 已找到 %1$d 个平台</string>
+    <string name="social_found">发现匹配 — %1$d 个平台</string>
+    <string name="social_none">未发现匹配平台</string>
+    <string name="social_empty">该用户名未在任何平台发现</string>
+    <string name="social_guide_title">使用说明</string>
+    <string name="social_guide_1">• 输入目标用户名，系统将自动遍历各大社交平台进行匹配</string>
+    <string name="social_guide_2">• 搜索结果实时显示，无需等待全部完成</string>
+    <string name="social_guide_3">• 支持全球主流社交平台、开发者社区、论坛等</string>
+
+    <!-- Court Screen -->
+    <string name="court_title">电子法庭查询</string>
+    <string name="court_subtitle">搜索马来西亚联邦法院电子判决 — e-Judgment Portal</string>
+    <string name="court_hint">输入姓名或案件关键词</string>
+    <string name="court_btn">法庭搜索</string>
+    <string name="court_result_title">搜索结果</string>
+    <string name="court_no_result">未找到相关法庭记录</string>
+    <string name="court_raw_title">API原始响应（解析失败）</string>
+    <string name="court_view_pdf">点击查看判决书PDF</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_appearance">外观设置</string>
+    <string name="settings_theme_auto">跟随系统</string>
+    <string name="settings_theme_auto_desc">自动匹配系统浅色/深色模式</string>
+    <string name="settings_theme_light">浅色模式</string>
+    <string name="settings_theme_light_desc">始终使用浅色主题</string>
+    <string name="settings_theme_dark">深色模式</string>
+    <string name="settings_theme_dark_desc">始终使用深色主题</string>
+    <string name="settings_language_title">语言设置</string>
+    <string name="settings_lang_en">English</string>
+    <string name="settings_lang_ms">Bahasa Melayu</string>
+    <string name="settings_lang_zh">中文 (Chinese)</string>
+    <string name="settings_translate_title">内容翻译</string>
+    <string name="settings_translate_desc">将API返回的马来文/英文内容翻译为中文显示</string>
+    <string name="settings_about_title">关于</string>
+
+    <!-- About Section -->
+    <string name="about_app_name">马来西亚OSINT</string>
+    <string name="about_version">版本 1.0.0</string>
+    <string name="about_author">作者：钟智强</string>
+    <string name="about_email">ctkqiang@dingtalk.com</string>
+    <string name="about_repo">gitcode.com/ctkqiang_sr/MalaysianOSINTAPP</string>
+    <string name="about_tried_best_title">💪 我已经尽力了！</string>
+    <string name="about_tried_best_desc">这个应用是我一个人用热情和心血打造的。虽然我已经尽了最大的努力保证准确性和可靠性，但难免还会有Bug、边界情况或需要改进的地方。欢迎随时提供反馈和贡献代码 — 让我们一起为全马来西亚人打造好用的OSINT工具！</string>
+    <string name="about_disclaimer">本应用仅供安全研究与合法授权测试使用。使用者应遵守马来西亚相关法律法规，对自身行为负责。</string>
+
+    <!-- Common/Generic -->
+    <string name="search_placeholder">输入搜索关键词…</string>
+    <string name="btn_search">查询</string>
+    <string name="btn_clear">清除</string>
+    <string name="btn_refresh">刷新</string>
+    <string name="loading_text">查询中…</string>
+    <string name="no_data">暂无数据</string>
+    <string name="network_error">网络连接失败，请检查网络</string>
+    <string name="general_error">查询出错，请重试</string>
+
+    <!-- Data labels -->
+    <string name="label_reg_no">注册号</string>
+    <string name="label_entity_code">实体类型代码</string>
+    <string name="label_entity_type">实体类型</string>
+    <string name="label_birthday">出生日期</string>
+    <string name="label_province">州属/直辖区</string>
+    <string name="label_identifier">唯一标识符</string>
+    <string name="label_company_name">企业名称</string>
+    <string name="label_category">行业类别</string>
+    <string name="label_address">地址</string>
+    <string name="label_website">网站</string>
+    <string name="label_source">数据来源</string>
+    <string name="label_case_no">案件编号</string>
+    <string name="label_charge">罪名</string>
+    <string name="label_sentence">判决</string>
+    <string name="label_law">适用法律</string>
+    <string name="label_judge">法官</string>
+    <string name="label_corum">合议庭</string>
+    <string name="label_parties">当事人</string>
+    <string name="label_appeal_date">上诉日期</string>
+    <string name="label_judgment_date">判决日期</string>
+    <string name="label_case_id">案件ID</string>
+    <string name="label_files">文件</string>
+    <string name="label_record">记录</string>
+
+    <!-- Result/Stats cards -->
+    <string name="stat_matches">匹配记录</string>
+    <string name="stat_fields">数据字段</string>
+    <string name="stat_source">数据来源</string>
+    <string name="stat_total">总记录数</string>
+    <string name="stat_page">当前页</string>
+
+    <!-- Risk levels -->
+    <string name="risk_high_title">⚠ 存在记录</string>
+    <string name="risk_high_desc">该号码/账号在PDRM数据库中有多条记录，请注意核实</string>
+    <string name="risk_medium_title">⚡ 需核实</string>
+    <string name="risk_medium_desc">该号码/账号在PDRM数据库中有记录，请查看详情</string>
+    <string name="risk_clean_title">✓ 未发现记录</string>
+    <string name="risk_clean_desc">PDRM Semak Mule 数据库中未查询到相关记录</string>
+    <string name="risk_no_data">此号码/账号未在PDRM诈骗数据库中登记</string>
+    <string name="risk_pdrm_source">PDRM</string>
+</resources>

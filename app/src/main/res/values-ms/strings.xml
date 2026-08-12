@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MalaysianOSINT — Bahasa Melayu string resources -->
+<resources>
+    <string name="app_name">MalaysianOSINT</string>
+    <string name="app_tagline">Risikan Sumber Terbuka untuk Malaysia</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Utama</string>
+    <string name="nav_id_check">Semakan IC</string>
+    <string name="nav_company">Syarikat</string>
+    <string name="nav_social">Sosial</string>
+    <string name="nav_court">Mahkamah</string>
+    <string name="nav_settings">Tetapan</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">Carian Anti-Penipuan</string>
+    <string name="home_subtitle">PDRM Semak Mule — Semak sama ada nombor telefon atau akaun bank dikaitkan dengan aktiviti penipuan</string>
+    <string name="home_refresh_alert">Segar Semula Amaran</string>
+    <string name="home_bnm_title">Senarai Amaran Pengguna BNM</string>
+    <string name="home_bnm_empty">Tiada amaran aktif</string>
+
+    <!-- ID Check Screen -->
+    <string name="id_title">Carian IC Komprehensif</string>
+    <string name="id_subtitle">SSPI Imigresen + Penghuraian MyKad + Senarai Dikehendaki + Rekod SPRM</string>
+    <string name="id_hint">Masukkan nombor IC 12 digit (cth. 990101075678)</string>
+    <string name="id_btn_search">Carian Komprehensif</string>
+    <string name="id_mykad_title">Penghuraian Kad Pengenalan MyKad</string>
+    <string name="id_mykad_fail">Tidak dapat menghuraikan nombor IC, sila semak input</string>
+    <string name="id_sspi_title">Status Imigresen SSPI</string>
+    <string name="id_wanted_title">⚠ Padanan Senarai Dikehendaki</string>
+    <string name="id_sprm_title">Rekod Rasuah SPRM</string>
+
+    <!-- Company Screen -->
+    <string name="company_tab_ssm">No. Pendaftaran SSM</string>
+    <string name="company_tab_yellow">Direktori Syarikat</string>
+    <string name="company_ssm_title">Penghurai Nombor Pendaftaran SSM</string>
+    <string name="company_ssm_subtitle">Huraikan nombor pendaftaran Suruhanjaya Syarikat Malaysia (SSM) untuk mengenal pasti jenis entiti</string>
+    <string name="company_ssm_hint">Masukkan nombor pendaftaran SSM (cth. 123456-01-7890)</string>
+    <string name="company_ssm_parse">Hurai</string>
+    <string name="company_ssm_result">Hasil Penghuraian</string>
+    <string name="company_yellow_title">Carian Direktori Syarikat</string>
+    <string name="company_yellow_subtitle">Cari Halaman Kuning Malaysia (MalaysiaYP) — dikaitkan dengan pangkalan data anti-penipuan</string>
+    <string name="company_yellow_hint">Masukkan kata kunci nama syarikat</string>
+    <string name="company_yellow_search">Carian Syarikat</string>
+    <string name="company_info_title">Maklumat Syarikat</string>
+    <string name="company_not_found">Tiada syarikat yang sepadan dijumpai</string>
+
+    <!-- Social Screen -->
+    <string name="social_title">Carian Jejak Media Sosial</string>
+    <string name="social_subtitle">Penghitungan nama pengguna merentas platform — 60+ platform sosial</string>
+    <string name="social_hint">Masukkan nama pengguna untuk dicari</string>
+    <string name="social_btn">Mula Carian</string>
+    <string name="social_searching">Mencari… Ditemui %1$d platform</string>
+    <string name="social_found">Padanan Ditemui — %1$d platform</string>
+    <string name="social_none">Tiada platform yang sepadan dijumpai</string>
+    <string name="social_empty">Nama pengguna tidak dijumpai di mana-mana platform</string>
+    <string name="social_guide_title">Cara Penggunaan</string>
+    <string name="social_guide_1">• Masukkan nama pengguna sasaran — sistem mengimbas semua platform sosial utama</string>
+    <string name="social_guide_2">• Keputusan dipaparkan secara masa nyata, tidak perlu tunggu selesai</string>
+    <string name="social_guide_3">• Menyokong platform sosial global, komuniti pembangun, forum, dll.</string>
+
+    <!-- Court Screen -->
+    <string name="court_title">Carian e-Mahkamah</string>
+    <string name="court_subtitle">Cari e-Penghakiman Mahkamah Persekutuan Malaysia — Portal e-Penghakiman</string>
+    <string name="court_hint">Masukkan nama atau kata kunci kes</string>
+    <string name="court_btn">Carian Mahkamah</string>
+    <string name="court_result_title">Hasil Carian</string>
+    <string name="court_no_result">Tiada rekod mahkamah dijumpai</string>
+    <string name="court_raw_title">Respons Mentah API (Penghuraian Gagal)</string>
+    <string name="court_view_pdf">Ketik untuk melihat PDF penghakiman</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_appearance">Penampilan</string>
+    <string name="settings_theme_auto">Ikut Sistem</string>
+    <string name="settings_theme_auto_desc">Padankan mod gelap/cerah sistem secara automatik</string>
+    <string name="settings_theme_light">Mod Cerah</string>
+    <string name="settings_theme_light_desc">Sentiasa guna tema cerah</string>
+    <string name="settings_theme_dark">Mod Gelap</string>
+    <string name="settings_theme_dark_desc">Sentiasa guna tema gelap</string>
+    <string name="settings_language_title">Bahasa</string>
+    <string name="settings_lang_en">English</string>
+    <string name="settings_lang_ms">Bahasa Melayu</string>
+    <string name="settings_lang_zh">中文 (Cina)</string>
+    <string name="settings_translate_title">Terjemahan Kandungan</string>
+    <string name="settings_translate_desc">Terjemah kandungan API Melayu/Inggeris ke Bahasa Cina</string>
+    <string name="settings_about_title">Perihal</string>
+
+    <!-- About Section -->
+    <string name="about_app_name">MalaysianOSINT</string>
+    <string name="about_version">Versi 1.0.0</string>
+    <string name="about_author">Pengarang: Chung Zhicheng (钟智强)</string>
+    <string name="about_email">ctkqiang@dingtalk.com</string>
+    <string name="about_repo">gitcode.com/ctkqiang_sr/MalaysianOSINTAPP</string>
+    <string name="about_tried_best_title">💪 Saya Dah Cuba Yang Terbaik!</string>
+    <string name="about_tried_best_desc">Aplikasi ini dibina dengan semangat dan dedikasi oleh seorang pembangun tunggal. Walaupun setiap usaha telah dibuat untuk memastikan ketepatan dan kebolehpercayaan, mungkin masih terdapat pepijat, kes tepi, atau ruang untuk penambahbaikan. Maklum balas dan sumbangan anda amat dialu-alukan — mari jadikan OSINT boleh diakses untuk semua rakyat Malaysia bersama-sama!</string>
+    <string name="about_disclaimer">Aplikasi ini hanya untuk penyelidikan keselamatan dan ujian yang dibenarkan. Pengguna hendaklah mematuhi undang-undang dan peraturan Malaysia dan bertanggungjawab sepenuhnya atas tindakan mereka sendiri.</string>
+
+    <!-- Common/Generic -->
+    <string name="search_placeholder">Masukkan carian…</string>
+    <string name="btn_search">Cari</string>
+    <string name="btn_clear">Kosongkan</string>
+    <string name="btn_refresh">Segar Semula</string>
+    <string name="loading_text">Memuatkan…</string>
+    <string name="no_data">Tiada data tersedia</string>
+    <string name="network_error">Ralat rangkaian, sila semak sambungan</string>
+    <string name="general_error">Ralat berlaku, sila cuba lagi</string>
+
+    <!-- Data labels -->
+    <string name="label_reg_no">No. Pendaftaran</string>
+    <string name="label_entity_code">Kod Entiti</string>
+    <string name="label_entity_type">Jenis Entiti</string>
+    <string name="label_birthday">Tarikh Lahir</string>
+    <string name="label_province">Negeri / Wilayah</string>
+    <string name="label_identifier">ID Unik</string>
+    <string name="label_company_name">Nama Syarikat</string>
+    <string name="label_category">Kategori</string>
+    <string name="label_address">Alamat</string>
+    <string name="label_website">Laman Web</string>
+    <string name="label_source">Sumber</string>
+    <string name="label_case_no">No. Kes</string>
+    <string name="label_charge">Pertuduhan</string>
+    <string name="label_sentence">Hukuman</string>
+    <string name="label_law">Undang-Undang</string>
+    <string name="label_judge">Hakim</string>
+    <string name="label_corum">Panel</string>
+    <string name="label_parties">Pihak</string>
+    <string name="label_appeal_date">Tarikh Rayuan</string>
+    <string name="label_judgment_date">Tarikh Penghakiman</string>
+    <string name="label_case_id">ID Kes</string>
+    <string name="label_files">Fail</string>
+    <string name="label_record">Rekod</string>
+
+    <!-- Result/Stats cards -->
+    <string name="stat_matches">Padanan</string>
+    <string name="stat_fields">Medan Data</string>
+    <string name="stat_source">Sumber</string>
+    <string name="stat_total">Jumlah Rekod</string>
+    <string name="stat_page">Halaman</string>
+
+    <!-- Risk levels -->
+    <string name="risk_high_title">⚠ Rekod Ditemui</string>
+    <string name="risk_high_desc">Pelbagai rekod ditemui dalam pangkalan data PDRM — sila sahkan</string>
+    <string name="risk_medium_title">⚡ Pengesahan Diperlukan</string>
+    <string name="risk_medium_desc">Rekod ditemui dalam pangkalan data PDRM — semak butiran</string>
+    <string name="risk_clean_title">✓ Tiada Rekod Ditemui</string>
+    <string name="risk_clean_desc">Tidak ditemui dalam pangkalan data PDRM Semak Mule</string>
+    <string name="risk_no_data">Nombor/akaun ini tidak berada dalam pangkalan data penipuan PDRM</string>
+    <string name="risk_pdrm_source">PDRM</string>
+</resources>

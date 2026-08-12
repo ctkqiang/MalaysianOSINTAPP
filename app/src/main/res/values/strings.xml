@@ -1,40 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 马来西亚OSINT — 中文字符串资源 -->
+<!-- MalaysianOSINT — English string resources (default) -->
 <resources>
-    <string name="app_name">马来西亚OSINT</string>
-    <string name="tab_home">首页</string>
-    <string name="tab_id">身份证</string>
-    <string name="tab_company">企业</string>
-    <string name="tab_social">社交</string>
-    <string name="tab_court">法庭</string>
-    <string name="tab_settings">设置</string>
-    <string name="action_search">搜索</string>
-    <string name="action_settings">设置</string>
-    <string name="action_about">关于</string>
-    <string name="search_hint_phone">输入电话号码或银行账号</string>
-    <string name="search_hint_ic">输入身份证号码 (IC)</string>
-    <string name="search_hint_name">输入姓名</string>
-    <string name="search_hint_ssm">输入SSM注册号</string>
-    <string name="search_hint_company">输入企业名称关键词</string>
-    <string name="search_hint_social">输入社交媒体用户名</string>
-    <string name="btn_search">查询</string>
-    <string name="btn_clear">清除</string>
-    <string name="label_loading">查询中…</string>
-    <string name="label_no_results">未找到相关结果</string>
-    <string name="label_error">查询出错，请重试</string>
-    <string name="label_network_error">网络连接失败，请检查网络</string>
-    <string name="label_result_count">共 %d 条结果</string>
-    <string name="settings_theme">主题模式</string>
-    <string name="settings_theme_auto">跟随系统</string>
-    <string name="settings_theme_light">浅色模式</string>
-    <string name="settings_theme_dark">深色模式</string>
-    <string name="settings_language">内容翻译</string>
-    <string name="settings_language_chinese">翻译为中文</string>
-    <string name="settings_language_original">保留原文</string>
-    <string name="about_title">关于马来西亚OSINT</string>
-    <string name="about_version">版本 1.0.0</string>
-    <string name="about_description">马来西亚开源情报采集工具，集成多源数据查询能力，支持身份证、企业、法庭记录、社交媒体等信息的合法检索与分析。\n\n本应用遵循马来西亚法律法规，仅供安全研究与授权测试使用。</string>
-    <string name="about_author">作者: 钟智强</string>
+    <string name="app_name">MalaysianOSINT</string>
+    <string name="app_tagline">Open-Source Intelligence for Malaysia</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_id_check">IC Check</string>
+    <string name="nav_company">Company</string>
+    <string name="nav_social">Social</string>
+    <string name="nav_court">Court</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">Anti-Scam Search</string>
+    <string name="home_subtitle">PDRM Semak Mule — Check if a phone number or bank account is linked to scam activity</string>
+    <string name="home_refresh_alert">Refresh Alerts</string>
+    <string name="home_bnm_title">BNM Consumer Alert List</string>
+    <string name="home_bnm_empty">No active alerts</string>
+
+    <!-- ID Check Screen -->
+    <string name="id_title">Comprehensive IC Search</string>
+    <string name="id_subtitle">SSPI Immigration + MyKad Parsing + Wanted List + MACC Records</string>
+    <string name="id_hint">Enter 12-digit IC number (e.g. 990101075678)</string>
+    <string name="id_btn_search">Comprehensive Search</string>
+    <string name="id_mykad_title">MyKad IC Parsing</string>
+    <string name="id_mykad_fail">Unable to parse IC number, please check input</string>
+    <string name="id_sspi_title">SSPI Immigration Status</string>
+    <string name="id_wanted_title">⚠ Wanted List Matches</string>
+    <string name="id_sprm_title">MACC Corruption Records</string>
+
+    <!-- Company Screen -->
+    <string name="company_tab_ssm">SSM Registration No.</string>
+    <string name="company_tab_yellow">Company Directory</string>
+    <string name="company_ssm_title">SSM Registration Number Parser</string>
+    <string name="company_ssm_subtitle">Parse Malaysian Companies Commission (SSM) registration numbers to identify entity types</string>
+    <string name="company_ssm_hint">Enter SSM registration number (e.g. 123456-01-7890)</string>
+    <string name="company_ssm_parse">Parse</string>
+    <string name="company_ssm_result">Parsing Result</string>
+    <string name="company_yellow_title">Company Directory Search</string>
+    <string name="company_yellow_subtitle">Search Malaysia Yellow Pages (MalaysiaYP) — linked with anti-scam database</string>
+    <string name="company_yellow_hint">Enter company name keyword</string>
+    <string name="company_yellow_search">Company Search</string>
+    <string name="company_info_title">Company Information</string>
+    <string name="company_not_found">No matching company found</string>
+
+    <!-- Social Screen -->
+    <string name="social_title">Social Media Footprint Search</string>
+    <string name="social_subtitle">Cross-platform username enumeration — 60+ social platforms</string>
+    <string name="social_hint">Enter username to search</string>
+    <string name="social_btn">Start Search</string>
+    <string name="social_searching">Searching… Found %1$d platforms</string>
+    <string name="social_found">Matches Found — %1$d platforms</string>
+    <string name="social_none">No matching platforms found</string>
+    <string name="social_empty">Username not found on any platform</string>
+    <string name="social_guide_title">How to Use</string>
+    <string name="social_guide_1">• Enter target username — system scans all major social platforms</string>
+    <string name="social_guide_2">• Results display in real-time, no need to wait for completion</string>
+    <string name="social_guide_3">• Supports global social platforms, developer communities, forums, etc.</string>
+
+    <!-- Court Screen -->
+    <string name="court_title">e-Court Search</string>
+    <string name="court_subtitle">Search Malaysian Federal Court e-Judgments — e-Judgment Portal</string>
+    <string name="court_hint">Enter name or case keyword</string>
+    <string name="court_btn">Court Search</string>
+    <string name="court_result_title">Search Results</string>
+    <string name="court_no_result">No court records found</string>
+    <string name="court_raw_title">API Raw Response (Parse Failed)</string>
+    <string name="court_view_pdf">Tap to view judgment PDF</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme_auto">Follow System</string>
+    <string name="settings_theme_auto_desc">Match system light/dark mode automatically</string>
+    <string name="settings_theme_light">Light Mode</string>
+    <string name="settings_theme_light_desc">Always use light theme</string>
+    <string name="settings_theme_dark">Dark Mode</string>
+    <string name="settings_theme_dark_desc">Always use dark theme</string>
+    <string name="settings_language_title">Language</string>
+    <string name="settings_lang_en">English</string>
+    <string name="settings_lang_ms">Bahasa Melayu</string>
+    <string name="settings_lang_zh">中文 (Chinese)</string>
+    <string name="settings_translate_title">Content Translation</string>
+    <string name="settings_translate_desc">Translate Malay/English API content to Chinese</string>
+    <string name="settings_about_title">About</string>
+
+    <!-- About Section -->
+    <string name="about_app_name">MalaysianOSINT</string>
+    <string name="about_version">Version 1.0.0</string>
+    <string name="about_author">Author: Chung Zhicheng (钟智强)</string>
     <string name="about_email">ctkqiang@dingtalk.com</string>
-    <string name="about_repo">https://gitcode.com/ctkqiang_sr/MalaysianOSINTAPP.git</string>
+    <string name="about_repo">gitcode.com/ctkqiang_sr/MalaysianOSINTAPP</string>
+    <string name="about_tried_best_title">💪 I\'ve Tried My Best!</string>
+    <string name="about_tried_best_desc">This app was built with passion and dedication by a single developer. While every effort has been made to ensure accuracy and reliability, there may still be bugs, edge cases, or areas for improvement. Your feedback and contributions are always welcome — let\'s make OSINT accessible for all Malaysians together!</string>
+    <string name="about_disclaimer">This application is intended for security research and authorized testing purposes only. Users shall comply with Malaysian laws and regulations and bear full responsibility for their own actions.</string>
+
+    <!-- Common/Generic -->
+    <string name="search_placeholder">Enter search query…</string>
+    <string name="btn_search">Search</string>
+    <string name="btn_clear">Clear</string>
+    <string name="btn_refresh">Refresh</string>
+    <string name="loading_text">Loading…</string>
+    <string name="no_data">No data available</string>
+    <string name="network_error">Network error, please check connection</string>
+    <string name="general_error">An error occurred, please try again</string>
+
+    <!-- Data labels -->
+    <string name="label_reg_no">Reg. No.</string>
+    <string name="label_entity_code">Entity Code</string>
+    <string name="label_entity_type">Entity Type</string>
+    <string name="label_birthday">Date of Birth</string>
+    <string name="label_province">State / Territory</string>
+    <string name="label_identifier">Unique ID</string>
+    <string name="label_company_name">Company Name</string>
+    <string name="label_category">Category</string>
+    <string name="label_address">Address</string>
+    <string name="label_website">Website</string>
+    <string name="label_source">Source</string>
+    <string name="label_case_no">Case No.</string>
+    <string name="label_charge">Charge</string>
+    <string name="label_sentence">Sentence</string>
+    <string name="label_law">Applicable Law</string>
+    <string name="label_judge">Judge</string>
+    <string name="label_corum">Panel</string>
+    <string name="label_parties">Parties</string>
+    <string name="label_appeal_date">Appeal Date</string>
+    <string name="label_judgment_date">Judgment Date</string>
+    <string name="label_case_id">Case ID</string>
+    <string name="label_files">Files</string>
+    <string name="label_record">Record</string>
+
+    <!-- Result/Stats cards -->
+    <string name="stat_matches">Matches</string>
+    <string name="stat_fields">Data Fields</string>
+    <string name="stat_source">Source</string>
+    <string name="stat_total">Total Records</string>
+    <string name="stat_page">Page</string>
+
+    <!-- Risk levels -->
+    <string name="risk_high_title">⚠ Records Found</string>
+    <string name="risk_high_desc">Multiple records found in PDRM database — please verify</string>
+    <string name="risk_medium_title">⚡ Verification Needed</string>
+    <string name="risk_medium_desc">Records found in PDRM database — check details</string>
+    <string name="risk_clean_title">✓ No Records Found</string>
+    <string name="risk_clean_desc">Not found in PDRM Semak Mule database</string>
+    <string name="risk_no_data">This number/account is not in the PDRM scam database</string>
+    <string name="risk_pdrm_source">PDRM</string>
 </resources>
